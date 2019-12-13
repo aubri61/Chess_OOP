@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Launcher",
+            "request": "launch",
+            "mainClass": "Launcher",
+            "projectName": "oop-term-project_c09d5088"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Launcher",
+            "request": "launch",
+            "mainClass": "Launcher",
+            "projectName": "oop-term-project_652ca667"
+        }
+    ]
+}

@@ -80,6 +80,7 @@ public class PieceSet {
         Map<Piece.Type, List<Piece>> whitePieces = new LinkedHashMap<Piece.Type, List<Piece>>();
         Map<Piece.Type, List<Piece>> blackPieces = new LinkedHashMap<Piece.Type, List<Piece>>();
 
+        //Rooks
         List<Piece> whiteRooks = new ArrayList<Piece>();
         List<Piece> blackRooks = new ArrayList<Piece>();
         for (int i = 0; i < 2; i++) {
@@ -91,6 +92,71 @@ public class PieceSet {
 
         pieceSet.put(Piece.Color.WHITE, whitePieces);
         pieceSet.put(Piece.Color.BLACK, blackPieces);
+
+        //King
+        List<Piece> whiteKing = new ArrayList<Piece>();
+        List<Piece> blackKing = new ArrayList<Piece>();
+        whiteKing.add(new King(Piece.Color.WHITE));
+        blackKing.add(new King(Piece.Color.BLACK));
+
+        whitePieces.put(Piece.Type.KING, whiteKing);
+        blackPieces.put(Piece.Type.KING, blackKing);
+
+        pieceSet.put(Piece.Color.WHITE, whitePieces);
+        pieceSet.put(Piece.Color.BLACK, blackPieces);
+
+        //Queen
+        List<Piece> whiteQueen = new ArrayList<Piece>();
+        List<Piece> blackQueen = new ArrayList<Piece>();
+        whiteQueen.add(new Queen(Piece.Color.WHITE));
+        blackQueen.add(new Queen(Piece.Color.BLACK));
+
+        whitePieces.put(Piece.Type.QUEEN, whiteQueen);
+        blackPieces.put(Piece.Type.QUEEN, blackQueen);
+
+        pieceSet.put(Piece.Color.WHITE, whitePieces);
+        pieceSet.put(Piece.Color.BLACK, blackPieces);
+
+        //Bishops
+        List<Piece> whiteBishops = new ArrayList<Piece>();
+        List<Piece> blackBishops = new ArrayList<Piece>();
+        for (int i = 0; i < 2; i++) {
+            whiteBishops.add(new Bishop(Piece.Color.WHITE));
+            blackBishops.add(new Bishop(Piece.Color.BLACK));
+        }
+        whitePieces.put(Piece.Type.BISHOP, whiteBishops);
+        blackPieces.put(Piece.Type.BISHOP, blackBishops);
+
+        pieceSet.put(Piece.Color.WHITE, whitePieces);
+        pieceSet.put(Piece.Color.BLACK, blackPieces);
+
+        //Knight
+        List<Piece> whiteKnights = new ArrayList<Piece>();
+        List<Piece> blackKnights = new ArrayList<Piece>();
+        for (int i = 0; i < 2; i++) {
+            whiteKnights.add(new Knight(Piece.Color.WHITE));
+            blackKnights.add(new Knight(Piece.Color.BLACK));
+        }
+        whitePieces.put(Piece.Type.KNIGHT, whiteKnights);
+        blackPieces.put(Piece.Type.KNIGHT, blackKnights);
+
+        pieceSet.put(Piece.Color.WHITE, whitePieces);
+        pieceSet.put(Piece.Color.BLACK, blackPieces);
+
+        //Pawn
+        List<Piece> whitePawns = new ArrayList<Piece>();
+        List<Piece> blackPawns = new ArrayList<Piece>();
+        for (int i = 0; i < 8; i++) {
+            whitePawns.add(new Pawn(Piece.Color.WHITE));
+            blackPawns.add(new Pawn(Piece.Color.BLACK));
+        }
+        whitePieces.put(Piece.Type.PAWN, whitePawns);
+        blackPieces.put(Piece.Type.PAWN, blackPawns);
+
+        pieceSet.put(Piece.Color.WHITE, whitePieces);
+        pieceSet.put(Piece.Color.BLACK, blackPieces);
+
+
     }
 
     private static void initializeCapturedPieceSet() {

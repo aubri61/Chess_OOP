@@ -123,6 +123,57 @@ public class BoardPanel extends JPanel implements Observer {
         getSquarePanel('h', 1).add(getPieceImageLabel(whiteRooksIterator.next()));
         getSquarePanel('a', 8).add(getPieceImageLabel(blackRooksIterator.next()));
         getSquarePanel('h', 8).add(getPieceImageLabel(blackRooksIterator.next()));
+
+         //King
+         Iterator<Piece> whiteKingIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.KING).iterator();
+         Iterator<Piece> blackKingIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.KING).iterator();
+         getSquarePanel('e', 1).add(getPieceImageLabel(whiteKingIterator.next()));
+         getSquarePanel('e', 8).add(getPieceImageLabel(blackKingIterator.next()));
+ 
+ 
+         //Queen
+         Iterator<Piece> whiteQueenIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.QUEEN).iterator();
+         Iterator<Piece> blackQueenIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.QUEEN).iterator();
+         getSquarePanel('d', 1).add(getPieceImageLabel(whiteQueenIterator.next()));
+         getSquarePanel('d', 8).add(getPieceImageLabel(blackQueenIterator.next()));
+ 
+ 
+         //bishop
+         Iterator<Piece> whiteBishopIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.BISHOP).iterator();
+         Iterator<Piece> blackBishopIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.BISHOP).iterator();
+         getSquarePanel('c', 1).add(getPieceImageLabel(whiteBishopIterator.next()));
+         getSquarePanel('f', 1).add(getPieceImageLabel(whiteBishopIterator.next()));
+         getSquarePanel('c', 8).add(getPieceImageLabel(blackBishopIterator.next()));
+         getSquarePanel('f', 8).add(getPieceImageLabel(blackBishopIterator.next()));
+ 
+         //Knight
+         Iterator<Piece> whiteKnightIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.KNIGHT).iterator();
+         Iterator<Piece> blackKnightIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.KNIGHT).iterator();
+         getSquarePanel('b', 1).add(getPieceImageLabel(whiteKnightIterator.next()));
+         getSquarePanel('g', 1).add(getPieceImageLabel(whiteKnightIterator.next()));
+         getSquarePanel('b', 8).add(getPieceImageLabel(blackKnightIterator.next()));
+         getSquarePanel('g', 8).add(getPieceImageLabel(blackKnightIterator.next()));
+ 
+         //Pawn
+         Iterator<Piece> whitePawnIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.PAWN).iterator();
+         Iterator<Piece> blackPawnIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.PAWN).iterator();
+         getSquarePanel('a', 2).add(getPieceImageLabel(whitePawnIterator.next()));
+         getSquarePanel('b', 2).add(getPieceImageLabel(whitePawnIterator.next()));
+         getSquarePanel('c', 2).add(getPieceImageLabel(whitePawnIterator.next()));
+         getSquarePanel('d', 2).add(getPieceImageLabel(whitePawnIterator.next()));
+         getSquarePanel('e', 2).add(getPieceImageLabel(whitePawnIterator.next()));
+         getSquarePanel('f', 2).add(getPieceImageLabel(whitePawnIterator.next()));
+         getSquarePanel('g', 2).add(getPieceImageLabel(whitePawnIterator.next()));
+         getSquarePanel('h', 2).add(getPieceImageLabel(whitePawnIterator.next()));
+         getSquarePanel('a', 7).add(getPieceImageLabel(blackPawnIterator.next()));
+         getSquarePanel('b', 7).add(getPieceImageLabel(blackPawnIterator.next()));
+         getSquarePanel('c', 7).add(getPieceImageLabel(blackPawnIterator.next()));
+         getSquarePanel('d', 7).add(getPieceImageLabel(blackPawnIterator.next()));
+         getSquarePanel('e', 7).add(getPieceImageLabel(blackPawnIterator.next()));
+         getSquarePanel('f', 7).add(getPieceImageLabel(blackPawnIterator.next()));
+         getSquarePanel('g', 7).add(getPieceImageLabel(blackPawnIterator.next()));
+         getSquarePanel('h', 7).add(getPieceImageLabel(blackPawnIterator.next()));
+ 
     }
 
     private void initializeBoardLayeredPane() {
