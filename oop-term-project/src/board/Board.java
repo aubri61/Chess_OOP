@@ -57,7 +57,7 @@ public class Board {
 
     private static void initializePieces() {
         /*
-        TODO-piece       
+        TODO-piece 커밋테스트
          */
         // rooks
         Iterator<Piece> whiteRooksIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.ROOK).iterator();
