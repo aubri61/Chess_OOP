@@ -24,6 +24,8 @@ public class TimerPanel extends JPanel implements Observer {
     private JLabel blackTimerDigitsLabel;
     private JPanel blackTimerStatusPanel;
 
+
+
     public TimerPanel(GameModel gameModel) {
         super(new BorderLayout());
         this.gameModel = gameModel;
@@ -46,10 +48,18 @@ public class TimerPanel extends JPanel implements Observer {
             Show whiteTimerStatusPanel
             Blind blackTimerStatusPanel
          */
+        whiteTime.setTime(whiteTime.getTime() + 1000);
+        whiteTimerDigitsLabel.setText(whiteTime.toString());
+        blackTimerStatusPanel.setVisible(false);
+        whiteTimerStatusPanel.setVisible(true);
     }
 
     public void blackTimerTikTok() {
         // TODO-timer: same with whiteTimerTikTok
+        blackTime.setTime(blackTime.getTime() + 1000);
+        blackTimerDigitsLabel.setText(blackTime.toString());
+        blackTimerStatusPanel.setVisible(false);
+        blackTimerStatusPanel.setVisible(true);
     }
 
     private void initialize() {
