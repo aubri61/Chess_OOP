@@ -142,58 +142,62 @@ public class MoveValidator {
 
         //Pawn movement
         if (curType.equals(Piece.Type.PAWN)) {
-            if (Board.getSquare(destFile, destRank).getCurrentPiece()!=null && 
-                Board.getSquare(destFile, destRank).getCurrentPiece().getColor()!=move.getPiece().getColor()) {
-                    if (move.getPiece().getColor()==Color.WHITE) {
-                        if (( fileDiff==-1 && rankDiff==1 ) || 
-                        ( fileDiff==1 && rankDiff==1) ) {
-                            return true;
-                        }  else { return false; }
-                    } else {
-                        if (( fileDiff==-1 && rankDiff==1 ) || 
-                        ( fileDiff==1 && rankDiff==1) ) {
-                            return true;
-                        }  else { return false; }
+
+            switch ( move.getPiece().getColor() ) {
+                case WHITE :
+                    if (fileDiff==0) {
+                        if ( oriRank==2 ) {
+                            if ( rankDiff==2 || rankDiff==1 ) { return true; } 
+                            else { return false; }
+                        } else {
+                            if (rankDiff==1) {return true;}
+                            else {return false;}
+                        }
+                    } 
+
+                    else {
+                        if (Board.getSquare(destFile, destRank).getCurrentPiece()!=null &&
+                            Board.getSquare(destFile, destRank).getCurrentPiece().getColor()== Color.BLACK ) {
+                            if (( fileDiff==-1 && rankDiff==1) ||
+                                ( fileDiff==1 && rankDiff==1)) { return true; } 
+                            else { return false; }
+                        }
+                        return false;
                     }
-                   
-            } else {
-                if (Board.getSquare(destFile, destRank).getCurrentPiece()==null) {
-                    if (oriRank==2 || oriRank==7) {
-                        if (!(rankDiff>2 && rankDiff<1)) {
-                            return true;
-                        } else { return false; }
+                                               
+                case BLACK:
+                if (fileDiff==0) {
+                    if ( oriRank==7 ) {
+                        if ( rankDiff==-2 || rankDiff==-1 ) { return true; } 
+                        else { return false; }
                     } else {
-                        if (rankDiff==1) {return true;}
+                        if (rankDiff==-1) {return true;}
+                        else {return false;}
                     }
+                } 
+
+                else {
+                    if (Board.getSquare(destFile, destRank).getCurrentPiece()!=null &&
+                        Board.getSquare(destFile, destRank).getCurrentPiece().getColor()== Color.BLACK ) {
+                        if (( fileDiff==-1 && rankDiff==-1) ||
+                            ( fileDiff==1 && rankDiff==-1)) { return true; } 
+                        else { return false; }
+                    }
+                    return false;
                 }
             }
-            return false;
-        }
-
-        // if (curType.equals(Piece.Type.PAWN)) {
             
-        //     if (Board.getSquare(destFile, destRank)!=null && 
-        //         Board.getSquare(destFile, destRank).getCurrentPiece().getColor()!=currentMoveColor) {
-        //             if (( fileDiff==-1 && rankDiff==1 ) || 
-        //                 ( fileDiff==1 && rankDiff==1) ) {
-        //                     return true;
-        //                 }  else { return false; }
-        //     } else {
-        //         if (Board.getSquare(destFile, destRank)==null) {
-                     
-        //             if (oriRank==2) {
-        //                 if (!(rankDiff>2 && rankDiff<1)) {
-        //                     return true;
-        //                 } else { return false; }
-        //             } else {
-        //                 if (rankDiff==1) {return true;}
-        //             }
-        //         }
-        //     }
-        //     return false;
-        // }
-
-
+            // if (Board.getSquare(destFile, destRank).getCurrentPiece()!=null && 
+            //     Board.getSquare(destFile, destRank).getCurrentPiece().getColor()!=move.getPiece().getColor()) {
+            //         if (move.getPiece().getColor()==Color.WHITE) {
+            //             if (( fileDiff==-1 && rankDiff==1 ) || 
+            //             ( fileDiff==1 && rankDiff==1) ) {
+            //                 return true;
+            //             }  else { return false; }
+            //         } 
+            //         }     
+          
+        }
         return false;
     }
 
