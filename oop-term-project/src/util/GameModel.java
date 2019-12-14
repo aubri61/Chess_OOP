@@ -90,10 +90,19 @@ public class GameModel extends Observable {
         TODO-timer
             start and stop whiteTimer and blackTimer
          */
+        if(move.getPiece().getColor().equals(Piece.Color.BLACK)){
+            whiteTimer.start();
+            blackTimer.stop();
+        }else{
+            blackTimer.start();
+            whiteTimer.stop();
+        }
     }
 
     private void stopTimer() {
         // TODO-timer: stop timers
+        blackTimer.stop();
+        whiteTimer.stop();
     }
 
     public BoardPanel getBoardPanel() {

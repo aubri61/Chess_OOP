@@ -55,7 +55,7 @@ public class MoveValidator {
         }
 
         // check for clear path
-        if (!validateClearPath(move)) {
+        if (!validateClearPath(move)) {         
             return false;
         }
 
@@ -76,127 +76,56 @@ public class MoveValidator {
     private static boolean validateClearPath(Move move) {
         // TODO-movement
 
-        // int fileDirection = Integer.signum(move.getDestinationFile() - move.getOriginFile());
-        // int rankDirection = Integer.signum(move.getDestinationRank() - move.getOriginRank());
+        int fileDirection = Integer.signum(move.getDestinationFile() - move.getOriginFile());
+        int rankDirection = Integer.signum(move.getDestinationRank() - move.getOriginRank());
 
-        // // one square executeMove
-        // if (Math.abs(move.getDestinationFile() - move.getOriginFile()) <= 1
-        //     && Math.abs(move.getDestinationRank() - move.getOriginRank()) <= 1) {
-        //     return true;
-        // }
+        // one square executeMove
+        if (Math.abs(move.getDestinationFile() - move.getOriginFile()) <= 1
+            && Math.abs(move.getDestinationRank() - move.getOriginRank()) <= 1) {
+            return true;
+        }
 
-        // // l-executeMove
-        // if ((Math.abs(move.getDestinationFile() - move.getOriginFile()) == 1
-        //         && Math.abs(move.getDestinationRank() - move.getOriginRank()) == 2)
-        //     || (Math.abs(move.getDestinationFile() - move.getOriginFile()) == 2
-        //         && Math.abs(move.getDestinationRank() - move.getOriginRank()) == 1)) {
-        //     return true;
-        // }
+        // l-executeMove
+        if ((Math.abs(move.getDestinationFile() - move.getOriginFile()) == 1
+                && Math.abs(move.getDestinationRank() - move.getOriginRank()) == 2)
+            || (Math.abs(move.getDestinationFile() - move.getOriginFile()) == 2
+                && Math.abs(move.getDestinationRank() - move.getOriginRank()) == 1)) {
+            return true;
+        }
 
-        // // diagonal executeMove
-        // if (Math.abs(move.getDestinationFile() - move.getOriginFile())
-        //         == Math.abs(move.getDestinationRank() - move.getOriginRank())) {
-        //     for (int file = move.getOriginFile() + fileDirection, rank = move.getOriginRank() + rankDirection;
-        //          file != move.getDestinationFile() && rank != move.getDestinationRank();
-        //          file += fileDirection, rank += rankDirection) {
-        //         if (Board.getSquare((char) file, rank).getCurrentPiece() != null) {
-        //             return false;
-        //         }
-        //     }
-        //     return true;
-        // }
-
-        // // along file (different rank)
-        // if (move.getDestinationFile() - move.getOriginFile() == 0
-        //         && move.getDestinationRank() - move.getOriginRank() != 0) {
-        //     for (int rank = move.getOriginRank() + rankDirection; rank != move.getDestinationRank(); rank += rankDirection) {
-        //         if (Board.getSquare(move.getOriginFile(), rank).getCurrentPiece() != null) {
-        //             return false;
-        //         }
-        //     }
-        //     return true;
-        // }
-
-        // // along rank (different file)
-        // if (move.getDestinationFile() - move.getOriginFile() != 0
-        //         && move.getDestinationRank() - move.getOriginRank() == 0) {
-        //     for (char file = (char) (move.getOriginFile() + fileDirection); file != move.getDestinationFile(); file += fileDirection) {
-        //         if (Board.getSquare(file, move.getOriginRank()).getCurrentPiece() != null) {
-        //             return false;
-        //         }
-        //     }
-        //     return true;
-        // }
-
-        //////////////////////////////////////////////////////////////////////////////
-
-        Piece.Type curType=move.getPiece().getType();
-
-        char oriFile=move.getOriginFile();
-        int oriRank=move.getOriginRank();
-        char destFile=move.getDestinationFile();
-        int destRank=move.getDestinationRank();
-
-        int fileDiff=destFile-oriFile;
-        int rankDiff=destRank-oriRank;
-
-        //Pawn movement
-        if (curType.equals(Piece.Type.PAWN)) {
-
-            switch ( move.getPiece().getColor() ) {
-                case WHITE :
-                    if (fileDiff==0) {
-                        if ( oriRank==2 ) {
-                            if ( rankDiff==2 || rankDiff==1 ) { return true; } 
-                            else { return false; }
-                        } else {
-                            if (rankDiff==1) {return true;}
-                            else {return false;}
-                        }
-                    } 
-
-                    else {
-                        if (Board.getSquare(destFile, destRank).getCurrentPiece()!=null &&
-                            Board.getSquare(destFile, destRank).getCurrentPiece().getColor()== Color.BLACK ) {
-                            if (( fileDiff==-1 && rankDiff==1) ||
-                                ( fileDiff==1 && rankDiff==1)) { return true; } 
-                            else { return false; }
-                        }
-                        return false;
-                    }
-                                               
-                case BLACK:
-                if (fileDiff==0) {
-                    if ( oriRank==7 ) {
-                        if ( rankDiff==-2 || rankDiff==-1 ) { return true; } 
-                        else { return false; }
-                    } else {
-                        if (rankDiff==-1) {return true;}
-                        else {return false;}
-                    }
-                } 
-
-                else {
-                    if (Board.getSquare(destFile, destRank).getCurrentPiece()!=null &&
-                        Board.getSquare(destFile, destRank).getCurrentPiece().getColor()== Color.BLACK ) {
-                        if (( fileDiff==-1 && rankDiff==-1) ||
-                            ( fileDiff==1 && rankDiff==-1)) { return true; } 
-                        else { return false; }
-                    }
+        // diagonal executeMove
+        if (Math.abs(move.getDestinationFile() - move.getOriginFile())
+                == Math.abs(move.getDestinationRank() - move.getOriginRank())) {
+            for (int file = move.getOriginFile() + fileDirection, rank = move.getOriginRank() + rankDirection;
+                 file != move.getDestinationFile() && rank != move.getDestinationRank();
+                 file += fileDirection, rank += rankDirection) {
+                if (Board.getSquare((char) file, rank).getCurrentPiece() != null) {
                     return false;
                 }
             }
-            
-            // if (Board.getSquare(destFile, destRank).getCurrentPiece()!=null && 
-            //     Board.getSquare(destFile, destRank).getCurrentPiece().getColor()!=move.getPiece().getColor()) {
-            //         if (move.getPiece().getColor()==Color.WHITE) {
-            //             if (( fileDiff==-1 && rankDiff==1 ) || 
-            //             ( fileDiff==1 && rankDiff==1) ) {
-            //                 return true;
-            //             }  else { return false; }
-            //         } 
-            //         }     
-          
+            return true;
+        }
+
+        // along file (different rank)
+        if (move.getDestinationFile() - move.getOriginFile() == 0
+                && move.getDestinationRank() - move.getOriginRank() != 0) {
+            for (int rank = move.getOriginRank() + rankDirection; rank != move.getDestinationRank(); rank += rankDirection) {
+                if (Board.getSquare(move.getOriginFile(), rank).getCurrentPiece() != null) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // along rank (different file)
+        if (move.getDestinationFile() - move.getOriginFile() != 0
+                && move.getDestinationRank() - move.getOriginRank() == 0) {
+            for (char file = (char) (move.getOriginFile() + fileDirection); file != move.getDestinationFile(); file += fileDirection) {
+                if (Board.getSquare(file, move.getOriginRank()).getCurrentPiece() != null) {
+                    return false;
+                }
+            }
+            return true;
         }
         return false;
     }
