@@ -24,8 +24,6 @@ public class TimerPanel extends JPanel implements Observer {
     private JLabel blackTimerDigitsLabel;
     private JPanel blackTimerStatusPanel;
 
-
-
     public TimerPanel(GameModel gameModel) {
         super(new BorderLayout());
         this.gameModel = gameModel;
