@@ -63,19 +63,41 @@ public class MoveValidator {
         return true;
     }
 
+
     public static boolean isCheckMove(Move move) {
         // TODO-check
         // create new move and check if this move can catches the opponent king next time.
         //  public Move(Piece piece, char originFile, int originRank, char destinationFile, int destinationRank) 
         Move temp=new Move(move.getPiece(), move.getDestinationFile(), move.getDestinationRank(), 
                             PieceSet.getOpponentKingFile(move.getPiece().getColor()), PieceSet.getOpponentKingRank(move.getPiece().getColor()));
+        // if (validateMove(temp, true)) {
+        //     currentMoveColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
+        // }
         return validateMove(temp, true);
     }
 
     public static boolean isCheckMate(Move move) {
         // TODO-check
+        // if king can move (one square), ischeckmate false, if not, true.
+        // Piece opponentKing=Board.getSquare(PieceSet.getOpponentKingFile(move.getPiece().getColor()), 
+        //                                    PieceSet.getOpponentKingRank(move.getPiece().getColor())).getCurrentPiece();
+
+        // int[] dir1={0, 0, 1, 1, -1, -1, -1, 1};
+        // int[] dir2={1, -1, 0, -1, 1, 0, -1, 1};
+        // boolean checkKingMove=true;
+
+        // for (int i=0; i<dir1.length; ++i) {
+        //     checkKingMove=KingAvailMove(opponentKing, dir1[i], dir[i]);
+        //     if (checkKingMove==false) {break;}
+        // }
+        
         return false;
     }
+
+    // public static boolean kingAvailMove(Piece opponentKing, char filedir, int rankdir) {
+
+    //     return false;
+    // }
 
     private static boolean validateClearPath(Move move) {
         // TODO-movement

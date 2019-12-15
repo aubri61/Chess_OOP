@@ -50,6 +50,7 @@ public class Board {
         if (move.getPiece().getType().equals(Piece.Type.KING)) {
             PieceSet.setKingAgain(move.getPiece().getColor(), move.getDestinationFile(), move.getDestinationRank());
         }
+        System.out.println(move.getPiece().getColor());
     }
 
     private static void initializeSquares() {
