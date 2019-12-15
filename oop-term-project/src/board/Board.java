@@ -45,6 +45,11 @@ public class Board {
         }
         destinationSquare.setCurrentPiece(originSquare.getCurrentPiece());
         originSquare.setCurrentPiece(null);
+        
+        //if king moves, set king's file and rank again.
+        if (move.getPiece().getType().equals(Piece.Type.KING)) {
+            PieceSet.setKingAgain(move.getPiece().getColor(), move.getDestinationFile(), move.getDestinationRank());
+        }
     }
 
     private static void initializeSquares() {

@@ -65,7 +65,11 @@ public class MoveValidator {
 
     public static boolean isCheckMove(Move move) {
         // TODO-check
-        return false;
+        // create new move and check if this move can catches the opponent king next time.
+        //  public Move(Piece piece, char originFile, int originRank, char destinationFile, int destinationRank) 
+        Move temp=new Move(move.getPiece(), move.getDestinationFile(), move.getDestinationRank(), 
+                            PieceSet.getOpponentKingFile(move.getPiece().getColor()), PieceSet.getOpponentKingRank(move.getPiece().getColor()));
+        return validateMove(temp, true);
     }
 
     public static boolean isCheckMate(Move move) {

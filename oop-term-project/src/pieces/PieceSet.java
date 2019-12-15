@@ -67,6 +67,16 @@ public class PieceSet {
         }
     }
 
+    public static void setKingAgain(Piece.Color color, char file, int rank) {
+        if (color.equals(Piece.Color.WHITE)) {
+            whiteKingFile=file;
+            whiteKingRank=rank;
+        } else {
+            blackKingFile=file;
+            blackKingRank=rank;
+        }
+    }
+
     private static void initializePieceSet() {
         /*
         TODO-piece
