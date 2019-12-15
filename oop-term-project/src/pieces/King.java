@@ -12,8 +12,6 @@ public class King extends Piece {
     @Override
     public boolean validateMove(Move move) {
 
-        Piece.Type curType=move.getPiece().getType();
-
         char oriFile=move.getOriginFile();
         int oriRank=move.getOriginRank();
         char destFile=move.getDestinationFile();

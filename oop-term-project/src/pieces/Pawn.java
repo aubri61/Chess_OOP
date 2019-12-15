@@ -14,8 +14,6 @@ public class Pawn extends Piece {
     public boolean validateMove(Move move) {
         // executeMove or capture
         
-            Piece.Type curType=move.getPiece().getType();
-
             char oriFile=move.getOriginFile();
             int oriRank=move.getOriginRank();
             char destFile=move.getDestinationFile();

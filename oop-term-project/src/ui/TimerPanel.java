@@ -41,10 +41,6 @@ public class TimerPanel extends JPanel implements Observer {
     public void whiteTimerTikTok() {
         /*
         TODO-timer
-            Update whiteTime
-            Update whiteDigitsLabel
-            Show whiteTimerStatusPanel
-            Blind blackTimerStatusPanel
          */
         whiteTime.setTime(whiteTime.getTime()+1000);
         whiteTimerDigitsLabel.setText(whiteTime.toString());
