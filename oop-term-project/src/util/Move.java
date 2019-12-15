@@ -30,7 +30,7 @@ public class Move {
         this.destinationRank = destinationRank;
     }
 
-    public Move(Piece piece, Piece capturedPiece, char originFile, int originRank, char destinationFile, int destinationRank) {
+    public Move(Piece piece, Piece capturedPiece, char originFile, int originRank, char destinationFile, int destinationRank) {      
         this.piece = piece;
         this.capturedPiece = capturedPiece;
         this.originFile = originFile;

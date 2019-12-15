@@ -28,12 +28,23 @@ public class Pawn extends Piece {
             switch ( move.getPiece().getColor() ) {
                 case WHITE :
                     if (fileDiff==0) {
-                        if ( oriRank==2 ) {
-                            if ( (rankDiff==2) || (rankDiff==1) ) { return true; }
-                            else { return false; }
-                        } else {
-                            if (rankDiff==1) {return true;}
-                            else {return false;}
+                        if (Board.getSquare(destFile, destRank).getCurrentPiece()!=null
+                                && Board.getSquare(destFile, destRank).getCurrentPiece().getColor().equals(Piece.Color.BLACK) ){
+                            return false;
+                        }else {
+                            if (oriRank == 2) {
+                                if ((rankDiff == 2) || (rankDiff == 1)) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            } else {
+                                if (rankDiff == 1) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }
                         }
                     } else {
                         if (Board.getSquare(destFile, destRank).getCurrentPiece()!=null
@@ -46,12 +57,23 @@ public class Pawn extends Piece {
         
                 case BLACK:
                     if (fileDiff==0) {
-                        if ( oriRank==7 ) {
-                            if ( rankDiff==-2 || rankDiff==-1 ) { return true; }
-                            else { return false; }
-                        } else {
-                            if (rankDiff==-1) {return true;}
-                            else {return false;}
+                        if (Board.getSquare(destFile, destRank).getCurrentPiece()!=null
+                                && Board.getSquare(destFile, destRank).getCurrentPiece().getColor().equals(Piece.Color.WHITE) ){
+                            return false;
+                        }else {
+                            if (oriRank == 7) {
+                                if (rankDiff == -2 || rankDiff == -1) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            } else {
+                                if (rankDiff == -1) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }
                         }
                     } else {
                         if (Board.getSquare(destFile, destRank).getCurrentPiece()!=null

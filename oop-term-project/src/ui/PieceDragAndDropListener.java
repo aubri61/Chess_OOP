@@ -20,47 +20,34 @@ public class PieceDragAndDropListener implements MouseListener, MouseMotionListe
 
     @Override
     public void mousePressed(MouseEvent e) {
-        try {
-            originFile = calculateFile(e);
-            originRank = calculateRank(e);
-            if (boardPanel.isBoardReversed()) {
-                dragOffsetX = e.getPoint().x - boardPanel.SQUARE_DIMENSION * ('h' - calculateFile(e));
-                dragOffsetY = e.getPoint().y - boardPanel.SQUARE_DIMENSION * (calculateRank(e) - 1);
-            } else {
-                dragOffsetX = e.getPoint().x - boardPanel.SQUARE_DIMENSION * (calculateFile(e) - 'a');
-                dragOffsetY = e.getPoint().y - boardPanel.SQUARE_DIMENSION * (8 - calculateRank(e));
-            }
-        } catch (Exception error) {
-            System.out.println("hk..");
-        }
-        
+        originFile = calculateFile(e);
+        originRank = calculateRank(e);
+        if (boardPanel.isBoardReversed()) {
+            dragOffsetX = e.getPoint().x - boardPanel.SQUARE_DIMENSION * ('h' - calculateFile(e));
+            dragOffsetY = e.getPoint().y - boardPanel.SQUARE_DIMENSION * (calculateRank(e) - 1);
+        } else {
+            dragOffsetX = e.getPoint().x - boardPanel.SQUARE_DIMENSION * (calculateFile(e) - 'a');
+            dragOffsetY = e.getPoint().y - boardPanel.SQUARE_DIMENSION * (8 - calculateRank(e));
+        }     
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        try {
-            if (dragging) {
-                boardPanel.postDrag();
-                boardPanel.submitMoveRequest(originFile, originRank, calculateFile(e), calculateRank(e));
-            }
-            dragging = false;
-        } catch (Exception error) {
-            System.out.println("stop!");
+        if (dragging) {
+            boardPanel.postDrag();
+            boardPanel.submitMoveRequest(originFile, originRank, calculateFile(e), calculateRank(e));
         }
+        dragging = false;
         
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        try {
-            if (dragging) {
-                boardPanel.executeDrag(e.getPoint().x - dragOffsetX, e.getPoint().y - dragOffsetY);
-            } else {
-                boardPanel.preDrag(originFile, originRank, e.getPoint().x - dragOffsetX, e.getPoint().y - dragOffsetY);
-                dragging = true;
-            }
-        } catch (Exception error) {
-            System.out.println("nono");
+        if (dragging) {
+            boardPanel.executeDrag(e.getPoint().x - dragOffsetX, e.getPoint().y - dragOffsetY);
+        } else {
+            boardPanel.preDrag(originFile, originRank, e.getPoint().x - dragOffsetX, e.getPoint().y - dragOffsetY);
+            dragging = true;
         }
         
     }

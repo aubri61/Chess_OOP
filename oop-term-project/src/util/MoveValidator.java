@@ -70,34 +70,67 @@ public class MoveValidator {
         //  public Move(Piece piece, char originFile, int originRank, char destinationFile, int destinationRank) 
         Move temp=new Move(move.getPiece(), move.getDestinationFile(), move.getDestinationRank(), 
                             PieceSet.getOpponentKingFile(move.getPiece().getColor()), PieceSet.getOpponentKingRank(move.getPiece().getColor()));
-        // if (validateMove(temp, true)) {
-        //     currentMoveColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
-        // }
         return validateMove(temp, true);
     }
 
     public static boolean isCheckMate(Move move) {
         // TODO-check
         // if king can move (one square), ischeckmate false, if not, true.
-        // Piece opponentKing=Board.getSquare(PieceSet.getOpponentKingFile(move.getPiece().getColor()), 
-        //                                    PieceSet.getOpponentKingRank(move.getPiece().getColor())).getCurrentPiece();
+        Piece opponentKing=Board.getSquare(PieceSet.getOpponentKingFile(move.getPiece().getColor()), 
+                                           PieceSet.getOpponentKingRank(move.getPiece().getColor())).getCurrentPiece();
 
-        // int[] dir1={0, 0, 1, 1, -1, -1, -1, 1};
-        // int[] dir2={1, -1, 0, -1, 1, 0, -1, 1};
-        // boolean checkKingMove=true;
+        int[] dir1={0, 0, 1, 1, -1, -1, -1, 1};
+        int[] dir2={1, -1, 0, -1, 1, 0, -1, 1};
+        boolean kingcatched=true;
+        boolean otherCatch=false;
 
-        // for (int i=0; i<dir1.length; ++i) {
-        //     checkKingMove=KingAvailMove(opponentKing, dir1[i], dir[i]);
-        //     if (checkKingMove==false) {break;}
-        // }
-        
-        return false;
+        for (int i=0; i<dir1.length; ++i) {
+            kingcatched&=kingAvailMove(move, opponentKing, dir1[i], dir2[i]);
+        }
+
+        for (char i='a'; i<'i'; i++) {
+            for (int j=1; j<9; j++) {
+                Piece curPiece=Board.getSquare(i, j).getCurrentPiece();
+                if (curPiece!=null && curPiece.getColor().equals( opponentKing.getColor() )) {
+                    if (curPiece.getType().equals(Piece.Type.KING)) {continue;}
+                    otherCatch=validateMove(new Move(curPiece, move.getPiece(), i, j, move.getOriginFile(), move.getOriginRank()));
+                }
+                if (otherCatch==true) { break;}
+            }
+            if (otherCatch==true) {break;}
+        }
+
+        return kingcatched&&otherCatch;
     }
 
-    // public static boolean kingAvailMove(Piece opponentKing, char filedir, int rankdir) {
+    public static boolean kingAvailMove(Move move, Piece opponentKing, int filedir, int rankdir) {
+        Piece.Color moveColor=move.getPiece().getColor();
+        //List<Piece> currPieces=PieceSet.getPieces(moveColor);
+        char kingOriFile=PieceSet.getOpponentKingFile(moveColor);
+        int kingOriRank=PieceSet.getOpponentKingRank(moveColor);
+        boolean kingcatched=false;
 
-    //     return false;
-    // }
+        System.out.println("ss");
+        if ((char)(kingOriFile+filedir)>'h' ||  (char)(kingOriFile+filedir)<'a' || (int)(kingOriRank+rankdir)>8 ||(int)(kingOriRank+rankdir)<1 ) {
+            System.out.println("nono outof bound");
+            return true;
+        }
+        Move kingMove=new Move( opponentKing, kingOriFile, kingOriRank, (char)(kingOriFile+filedir), (int)(kingOriRank+rankdir));
+        System.out.println("kk");
+        if (validateMove(kingMove)) {
+            for (char i='a'; i<'i'; i++) {
+                for (int j=1; j<9; j++) {
+                    Piece curPiece=Board.getSquare(i, j).getCurrentPiece();
+                    if (curPiece!=null && curPiece.getColor().equals(moveColor)) {
+                        kingcatched=validateMove(new Move(curPiece, opponentKing, i, j, (char)(kingOriFile+filedir), kingOriRank+rankdir));
+                    }
+                    if (kingcatched==true) { break;}
+                }
+                if (kingcatched==true) {break;}
+            }
+        }
+        return kingcatched;
+    }
 
     private static boolean validateClearPath(Move move) {
         // TODO-movement
