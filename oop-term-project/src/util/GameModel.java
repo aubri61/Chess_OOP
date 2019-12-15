@@ -54,6 +54,7 @@ public class GameModel extends Observable {
                 gameFrame.showCheckmateDialog();
             } else {
                 gameFrame.showCheckDialog();
+                MoveValidator.validateMove(move, false);
             }
         }
     }
