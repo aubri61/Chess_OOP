@@ -57,6 +57,16 @@ public class GameModel extends Observable {
                 MoveValidator.validateMove(move, false);
             }
         }
+        // Move someMove=MoveValidator.isCheckMove(move);
+        // if (MoveValidator.whichCheckMove(someMove)) {
+        //     if (MoveValidator.isCheckMate(someMove)) {
+        //         stopTimer();
+        //         gameFrame.showCheckmateDialog();
+        //     } else {
+        //         gameFrame.showCheckDialog();
+        //         MoveValidator.validateMove(someMove, false);
+        //     }
+        // }
     }
 
     public Piece queryPiece(char file, int rank) {
