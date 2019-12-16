@@ -19,6 +19,14 @@ public class MoveLogger {
             this.blackMove = blackMove;
         }
 
+        public Move getMove(Piece.Color color) {
+            if (color.equals(Piece.Color.WHITE)) {
+                return whiteMove;
+            } else {
+                return blackMove;
+            }
+        }
+
     }
 
     private static List<MoveRound> moveHistory;
@@ -43,6 +51,14 @@ public class MoveLogger {
         if (moveRoundBuffer.size() == 2) {
             moveHistory.add(new MoveRound(moveRoundBuffer.get(0), moveRoundBuffer.get(1)));
             moveRoundBuffer.clear();
+        }
+    }
+
+    public static Move getLastMove() {
+        if (moveRoundBuffer.size() == 0) {
+            return moveHistory.get(moveHistory.size() - 1).getMove(Piece.Color.BLACK);
+        } else {
+            return moveRoundBuffer.get(0);
         }
     }
 

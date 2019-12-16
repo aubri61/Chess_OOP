@@ -1,7 +1,8 @@
 package util;
 
-import board.Board;
+import board.*;
 import pieces.Piece;
+import pieces.PieceSet;
 import ui.*;
 
 import javax.swing.*;
@@ -49,7 +50,7 @@ public class GameModel extends Observable {
         boardPanel.executeMove(move);
         switchTimer(move);
         if (MoveValidator.isCheckMove(move)) {
-            if (MoveValidator.isCheckMate(move)) {
+            if (MoveValidator.isRealCheckMate(move)) {
                 stopTimer();
                 gameFrame.showCheckmateDialog();
             } else {
@@ -62,16 +63,30 @@ public class GameModel extends Observable {
             gameFrame.showPromotion(move,boardPanel);
             MoveValidator.validateMove(move, false);
         }
-        // Move someMove=MoveValidator.isCheckMove(move);
-        // if (MoveValidator.whichCheckMove(someMove)) {
-        //     if (MoveValidator.isCheckMate(someMove)) {
-        //         stopTimer();
-        //         gameFrame.showCheckmateDialog();
-        //     } else {
-        //         gameFrame.showCheckDialog();
-        //         MoveValidator.validateMove(someMove, false);
-        //     }
-        // }
+
+        if (MoveValidator.enPassant(move)) {
+            move.getPiece().setEnpassant(true);
+            MoveValidator.validateMove(move, false);
+        }
+        if (Board.getSquare(move.getDestinationFile(), move.getDestinationRank()-1).getCurrentPiece()!=null) {
+            if (Board.getSquare(move.getDestinationFile(), move.getDestinationRank()-1).getCurrentPiece().getEnpassant()) {
+                boardPanel.removeEnPassantLabel1(move);
+                PieceSet.addCapturedPiece(Board.getSquare(move.getDestinationFile(), move.getDestinationRank()-1).getCurrentPiece());
+
+                System.out.println(PieceSet.getCapturedPieces(Piece.Color.WHITE));
+                System.out.println(PieceSet.getCapturedPieces(Piece.Color.BLACK));
+
+            }
+        }
+        if (Board.getSquare(move.getDestinationFile(), move.getDestinationRank()+1).getCurrentPiece()!=null) {
+            if (Board.getSquare(move.getDestinationFile(), move.getDestinationRank()+1).getCurrentPiece().getEnpassant()) {
+                boardPanel.removeEnPassantLabel2(move);
+                PieceSet.addCapturedPiece(Board.getSquare(move.getDestinationFile(), move.getDestinationRank()+1).getCurrentPiece());
+
+               System.out.println(PieceSet.getCapturedPieces(Piece.Color.WHITE));
+               System.out.println(PieceSet.getCapturedPieces(Piece.Color.BLACK));    
+            }
+        }    
     }
 
     public Piece queryPiece(char file, int rank) {

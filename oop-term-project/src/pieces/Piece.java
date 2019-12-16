@@ -10,18 +10,20 @@ public abstract class Piece {
     public enum Color {
         WHITE, BLACK
     }
-
+    
     public enum Type {
         KING, ROOK, BISHOP, QUEEN, KNIGHT, PAWN
     }
-
+    
     protected Color color;
     protected Type type;
     protected boolean capture;
-
+    protected boolean enpassant;
+    
     public Piece(Color color) {
         this.color = color;
         this.capture = false;
+        this.enpassant=false;
     }
 
     public abstract boolean validateMove(Move move);
@@ -79,5 +81,14 @@ public abstract class Piece {
     public boolean getCapture() {
         return this.capture;
     }
+
+    public boolean getEnpassant() {
+        return this.enpassant;
+    }
+    
+    public void setEnpassant(boolean b) {
+        this.enpassant=b;
+    }
+
 
 }

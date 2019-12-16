@@ -171,17 +171,7 @@ public class MoveValidator {
             if (otherCatch==true) {break;}
         }
 
-        for (char i='a'; i<'i'; i++) {
-            for (int j=1; j<9; j++) {
-                Piece curPiece=Board.getSquare(i, j).getCurrentPiece();
-                System.out.println(i+" "+j);
-                if (curPiece!=null && curPiece.getColor().equals( move.getPiece().getColor() )) {
-                    anotherCheck=validateMove(new Move(curPiece, opponentKing, i, j, PieceSet.getOpponentKingFile(move.getPiece().getColor()), 
-                                                    PieceSet.getOpponentKingRank(move.getPiece().getColor())), false);                }
-                if (anotherCheck==true) { break;}
-            }
-            if (anotherCheck==true) {break;}
-        }
+        
 
         //sacrifice
         // for (char i='a'; i<'i'; i++) {
@@ -219,10 +209,36 @@ public class MoveValidator {
         
 
        //System.out.println(sacrifice);
-       kingcatched=kingcatched||anotherCheck;
-
+      // kingcatched=kingcatched||anotherCheck;
 
         return kingcatched&&!otherCatch;
+    }
+
+    public static boolean isRealCheckMate(Move move) {
+        boolean ischeckmate=isCheckMate(move);
+        boolean anotherCheck=false;
+        boolean anotherCheckmateCheck=false;
+
+        Piece opponentKing=Board.getSquare(PieceSet.getOpponentKingFile(move.getPiece().getColor()), 
+                                            PieceSet.getOpponentKingRank(move.getPiece().getColor())).getCurrentPiece();
+        for (char i='a'; i<'i'; i++) {
+            for (int j=1; j<9; j++) {
+                Piece curPiece=Board.getSquare(i, j).getCurrentPiece();
+                System.out.println(i+" "+j);
+                if (curPiece!=null && curPiece.getColor().equals( move.getPiece().getColor() )) {
+                    Move newMove=new Move(curPiece, opponentKing, i, j, PieceSet.getOpponentKingFile(move.getPiece().getColor()), 
+                                            PieceSet.getOpponentKingRank(move.getPiece().getColor()));
+                    anotherCheck=validateMove(new Move(curPiece, opponentKing, i, j, PieceSet.getOpponentKingFile(move.getPiece().getColor()), 
+                                                    PieceSet.getOpponentKingRank(move.getPiece().getColor())), false);
+                    if (anotherCheck==true) { 
+                        anotherCheckmateCheck=isCheckMate(newMove);
+                    } else { break; }
+                }
+                if (anotherCheckmateCheck) {break;}
+            }
+            if (anotherCheckmateCheck) {break;}
+        }
+        return ischeckmate||anotherCheckmateCheck;
     }
 
     public static boolean kingAvailMove(Move move, Piece opponentKing, int filedir, int rankdir) {
@@ -256,9 +272,9 @@ public class MoveValidator {
     }
 
     public static boolean canPromote(Move move) {
-        Piece curpPiece=move.getPiece();
-        if (curpPiece.getType().equals(Piece.Type.PAWN)) {
-            if (curpPiece.getColor().equals(Piece.Color.WHITE)) {
+        Piece curPiece=move.getPiece();
+        if (curPiece.getType().equals(Piece.Type.PAWN)) {
+            if (curPiece.getColor().equals(Piece.Color.WHITE)) {
                 if (move.getDestinationRank()==8) {
                     return true;
                 }
@@ -269,6 +285,74 @@ public class MoveValidator {
             }
         }
         return false;
+    }
+
+    public static boolean enPassant(Move move) {
+        Piece curPiece=move.getPiece();
+        char oriFile=move.getOriginFile();
+        int oriRank=move.getOriginRank();
+        char destFile=move.getDestinationFile();
+        int destRank=move.getDestinationRank();
+        Piece oppoPiece1;
+        Piece oppoPiece2;
+
+        if ((char)(oriFile+1)>'h'||(char)(oriFile+1)<'a') {
+            oppoPiece1=null;
+        } else {
+            oppoPiece1=Board.getSquare((char)(oriFile+1), destRank).getCurrentPiece();
+        }
+        if ((char)(oriFile-1)>'h'||(char)(oriFile-1)<'a') {
+            oppoPiece2=null;
+        } else {
+            oppoPiece2=Board.getSquare((char)(oriFile-1), destRank).getCurrentPiece();
+        }
+
+        if (curPiece.getType().equals(Piece.Type.PAWN)) {
+            if (curPiece.getColor().equals(Piece.Color.WHITE)) {
+                if (destRank==4 && oriRank==2 && ( (oppoPiece1!=null && oppoPiece1.getType().equals(Piece.Type.PAWN))|| 
+                                                    (oppoPiece2!=null && oppoPiece2.getType().equals(Piece.Type.PAWN))) ) {
+                    return true;
+                }
+            } else {
+                if (destRank==5 && oriRank==7 && ( (oppoPiece1!=null && oppoPiece1.getType().equals(Piece.Type.PAWN))|| 
+                                                    (oppoPiece2!=null && oppoPiece2.getType().equals(Piece.Type.PAWN))) ) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static String[] getEnPassantPieces(Move move) {
+        String[] result=new String[2];
+        Piece curPiece=move.getPiece();
+        char oriFile=move.getOriginFile();
+        int oriRank=move.getOriginRank();
+        char destFile=move.getDestinationFile();
+        int destRank=move.getDestinationRank();
+        String str;
+
+
+        if ((char)(oriFile+1)>'h'||(char)(oriFile+1)<'a') {
+            result[0]=null;
+        } else {
+            str=(char)(oriFile+1)+Integer.toString(destRank);
+            result[0]=str;
+        }
+        if ((char)(oriFile-1)>'h'||(char)(oriFile-1)<'a') {
+            result[1]=null;
+        } else {
+            str=(char)(oriFile-1)+Integer.toString(destRank);
+            result[1]=str;
+        }
+        if (Board.getSquare((char)(oriFile+1), destRank)==null) {result[0]=null;}
+        if (Board.getSquare((char)(oriFile-1), destRank)==null) {result[1]=null;}
+
+        System.out.println("on movevalidator");
+        System.out.println(result[0]+result[1]);
+
+        return result;
     }
 
     private static boolean validateClearPath(Move move) {

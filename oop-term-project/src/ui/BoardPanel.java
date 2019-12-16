@@ -183,6 +183,15 @@ public class BoardPanel extends JPanel implements Observer {
         getSquarePanel(move.getDestinationFile(), move.getDestinationRank()).add(newImage);
     }
 
+    public void removeEnPassantLabel1(Move move) {
+        getSquarePanel(move.getDestinationFile(), move.getDestinationRank()-1).removeAll();
+        getSquarePanel(move.getDestinationFile(), move.getDestinationRank()-1).repaint();
+    }
+    public void removeEnPassantLabel2(Move move) {
+        getSquarePanel(move.getDestinationFile(), move.getDestinationRank()+1).removeAll();
+        getSquarePanel(move.getDestinationFile(), move.getDestinationRank()+1).repaint();
+    }
+
     private void initializeBoardLayeredPane() {
         boardPanel = new JPanel(new GridLayout(8, 8));
         boardPanel.setBounds(0, 0, 800, 800);

@@ -86,19 +86,6 @@ public class PieceSet {
     public static void promotion(Move move, String selected, BoardPanel boardPanel) {
         Piece pawnPiece=move.getPiece();
         PieceSet.getPieces(pawnPiece.getColor()).remove(pawnPiece);
-        // if (selected.equals("Queen")) {
-        //     pawnPiece.changeType(Piece.Type.QUEEN);
-        // } else if (selected.equals("Rook")) {
-        //     pawnPiece.changeType(Piece.Type.ROOK);
-        // } else if (selected.equals("Bishop")) {
-        //     pawnPiece.changeType(Piece.Type.BISHOP);
-        // } else if (selected.equals("Knight")) {
-        //     pawnPiece.changeType(Piece.Type.KNIGHT);
-        // } 
-        
-        // PieceSet.getPieces(pawnPiece.getColor()).add(pawnPiece); 
-        // boardPanel.changeImageLabel(pawnPiece, move);
-        // System.out.println("pawn has changed into"+pawnPiece.getType());  
         Piece newPiece;
         if (selected.equals("Queen")) {
             newPiece=new Queen(pawnPiece.getColor());
@@ -122,6 +109,7 @@ public class PieceSet {
         } 
 
         boardPanel.changeImageLabel(newPiece, move);
+        PieceSet.getPieces(pawnPiece.getColor()).add(newPiece);
         System.out.println("pawn has changed into"+newPiece.getType());
     }
 
