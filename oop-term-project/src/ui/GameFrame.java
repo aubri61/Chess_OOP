@@ -61,15 +61,17 @@ public class GameFrame extends JFrame implements Observer{
         JOptionPane.showMessageDialog(this, "That's a Checkmate!", "Checkmate", JOptionPane.WARNING_MESSAGE);
     }
 
-    public void showPromotion (Move move, BoardPanel boardPanel) {
+    public Piece showPromotion (Move move, BoardPanel boardPanel) {
         String[] buttons={"Queen","Knight","Bishop","Rook"};
         int selected = JOptionPane.showOptionDialog(null, "Pawn promotes to...", "Select Promote Piece.",
         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttons, buttons[0]);
         if(selected == JOptionPane.CLOSED_OPTION) {
             JOptionPane.showMessageDialog(null, "Pawn Piece was not changed");
+            return move.getPiece();
         } else {
-            PieceSet.promotion(move, buttons[selected], boardPanel);
+            return PieceSet.promotion(move, buttons[selected], boardPanel);
         }
+        return move.getPiece();
     }
 
     // public boolean showEnPassant(String[] arr, Move move, BoardPanel boardPanel) {

@@ -48,10 +48,10 @@ public class Pawn extends Piece {
                         }
                     }
                 } else {
-                    if (MoveLogger.getLastMove().getPiece().getEnpassant()) {
-                        System.out.println(MoveLogger.getLastMove().getDestinationFile()+" "+MoveLogger.getLastMove().getDestinationRank());
+                    if (MoveLogger.getPreviousMove(move)!=null && MoveLogger.getPreviousMove(move).getPiece().getEnpassant()) {
+                        System.out.println(MoveLogger.getPreviousMove(move).getDestinationFile()+" "+MoveLogger.getPreviousMove(move).getDestinationRank());
 
-                        Move lastmove=MoveLogger.getLastMove();
+                        Move lastmove=MoveLogger.getPreviousMove(move);
                         if (move.getDestinationFile()==lastmove.getDestinationFile() && (move.getDestinationRank()==lastmove.getDestinationRank()+1)) {
                             return true;
                         }
@@ -85,10 +85,11 @@ public class Pawn extends Piece {
                         }
                     }
                 } else {
-                    if (MoveLogger.getLastMove().getPiece().getEnpassant()) {
-                        System.out.println(MoveLogger.getLastMove().getDestinationFile()+" "+MoveLogger.getLastMove().getDestinationRank());
-                        Move lastmove=MoveLogger.getLastMove();
-                        if (move.getDestinationFile()==lastmove.getDestinationFile() && (move.getDestinationRank()==lastmove.getDestinationRank()-1)) {
+                    if (MoveLogger.getPreviousMove(move)!=null && MoveLogger.getPreviousMove(move).getPiece().getEnpassant()) {
+                        System.out.println(MoveLogger.getPreviousMove(move).getDestinationFile()+" "+MoveLogger.getPreviousMove(move).getDestinationRank());
+
+                        Move lastmove=MoveLogger.getPreviousMove(move);
+                        if (move.getDestinationFile()==lastmove.getDestinationFile() && (move.getDestinationRank()==lastmove.getDestinationRank()+1)) {
                             return true;
                         }
                     }

@@ -2,8 +2,13 @@ package ui;
 
 import util.GameModel;
 import util.Move;
+import util.MoveLogger;
+import pieces.*;
 
 import javax.swing.*;
+
+import board.Board;
+
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
@@ -31,7 +36,18 @@ public class MoveHistoryPanel extends JPanel implements Observer {
         if (move.getCapturedPiece() != null) {
             newMoveEntry += "captures ";
             newMoveEntry += move.getCapturedPiece().getType().toString();
+        } 
+        if (MoveLogger.getPreviousMove(move)!=null && MoveLogger.getPreviousMove(move).getPiece()!=null && MoveLogger.getPreviousMove(move).getPiece().getEnpassant()) {
+            if (move.getPiece().getType().equals(Piece.Type.PAWN)) {
+                if (move.getDestinationFile()==MoveLogger.getPreviousMove(move).getDestinationFile() && Math.abs(move.getDestinationRank()-MoveLogger.getPreviousMove(move).getDestinationRank())==1) {
+                    newMoveEntry += "captures ";
+                    newMoveEntry += "PAWN";
+                }
+            }
         }
+          
+        
+        
         newMoveEntry += "\n";
 
         moveHistoryContent += newMoveEntry;

@@ -68,25 +68,23 @@ public class GameModel extends Observable {
             move.getPiece().setEnpassant(true);
             MoveValidator.validateMove(move, false);
         }
-        if (Board.getSquare(move.getDestinationFile(), move.getDestinationRank()-1).getCurrentPiece()!=null) {
-            if (Board.getSquare(move.getDestinationFile(), move.getDestinationRank()-1).getCurrentPiece().getEnpassant()) {
-                boardPanel.removeEnPassantLabel1(move);
-                PieceSet.addCapturedPiece(Board.getSquare(move.getDestinationFile(), move.getDestinationRank()-1).getCurrentPiece());
-
-                System.out.println(PieceSet.getCapturedPieces(Piece.Color.WHITE));
-                System.out.println(PieceSet.getCapturedPieces(Piece.Color.BLACK));
-
+        if (MoveLogger.getPreviousMove(move)!=null && MoveLogger.getPreviousMove(move).getPiece()!=null && MoveLogger.getPreviousMove(move).getPiece().getEnpassant()) {
+            if (move.getPiece().getType().equals(Piece.Type.PAWN)) {
+                if (move.getDestinationFile()==MoveLogger.getPreviousMove(move).getDestinationFile() && Math.abs(move.getDestinationRank()-MoveLogger.getPreviousMove(move).getDestinationRank())==1) {
+                    boardPanel.removeEnPassantLabel(move);
+                    MoveLogger.getPreviousMove(move).getPiece().setEnpassant(false);
+                    MoveLogger.getPreviousMove(move).getPiece().setCapture(true);
+                    PieceSet.addCapturedPiece(MoveLogger.getPreviousMove(move).getPiece());
+                }
             }
         }
-        if (Board.getSquare(move.getDestinationFile(), move.getDestinationRank()+1).getCurrentPiece()!=null) {
-            if (Board.getSquare(move.getDestinationFile(), move.getDestinationRank()+1).getCurrentPiece().getEnpassant()) {
-                boardPanel.removeEnPassantLabel2(move);
-                PieceSet.addCapturedPiece(Board.getSquare(move.getDestinationFile(), move.getDestinationRank()+1).getCurrentPiece());
 
-               System.out.println(PieceSet.getCapturedPieces(Piece.Color.WHITE));
-               System.out.println(PieceSet.getCapturedPieces(Piece.Color.BLACK));    
-            }
-        }    
+        if(MoveLogger.getPreviousMove(move)!=null&&MoveLogger.getPreviousMove(move).getPiece()!=null && MoveLogger.getPreviousMove(move).getPiece().getEnpassant() && !MoveLogger.getPreviousMove(move).getPiece().getCapture()) {
+            System.out.println(MoveLogger.getPreviousMove(move).getDestinationFile()+" "+MoveLogger.getPreviousMove(move).getDestinationRank());
+            System.out.println("sibal");
+            MoveLogger.getPreviousMove(move).getPiece().setEnpassant(false);
+            System.out.println(MoveLogger.getPreviousMove(move).getPiece()+" "+MoveLogger.getPreviousMove(move).getOriginFile()+" "+MoveLogger.getPreviousMove(move).getOriginRank());
+        }
     }
 
     public Piece queryPiece(char file, int rank) {

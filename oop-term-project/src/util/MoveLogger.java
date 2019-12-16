@@ -54,11 +54,13 @@ public class MoveLogger {
         }
     }
 
-    public static Move getLastMove() {
-        if (moveRoundBuffer.size() == 0) {
-            return moveHistory.get(moveHistory.size() - 1).getMove(Piece.Color.BLACK);
+    public static Move getPreviousMove(Move move) {
+        if (move.getPiece().getColor().equals(Piece.Color.WHITE)) {
+            if (moveHistory.size()!=0) {
+                return moveHistory.get(moveHistory.size() -1 ).getMove(Piece.Color.BLACK);
+            } else {return null;}
         } else {
-            return moveRoundBuffer.get(0);
+            return moveHistory.get(moveHistory.size() -1).getMove(Piece.Color.WHITE);
         }
     }
 

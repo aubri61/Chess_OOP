@@ -5,6 +5,7 @@ import pieces.PieceSet;
 import util.Core;
 import util.GameModel;
 import util.Move;
+import util.MoveLogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -183,13 +184,9 @@ public class BoardPanel extends JPanel implements Observer {
         getSquarePanel(move.getDestinationFile(), move.getDestinationRank()).add(newImage);
     }
 
-    public void removeEnPassantLabel1(Move move) {
-        getSquarePanel(move.getDestinationFile(), move.getDestinationRank()-1).removeAll();
-        getSquarePanel(move.getDestinationFile(), move.getDestinationRank()-1).repaint();
-    }
-    public void removeEnPassantLabel2(Move move) {
-        getSquarePanel(move.getDestinationFile(), move.getDestinationRank()+1).removeAll();
-        getSquarePanel(move.getDestinationFile(), move.getDestinationRank()+1).repaint();
+    public void removeEnPassantLabel(Move move) {
+        getSquarePanel(MoveLogger.getPreviousMove(move).getDestinationFile(),MoveLogger.getPreviousMove(move).getDestinationRank()).removeAll();
+        getSquarePanel(MoveLogger.getPreviousMove(move).getDestinationFile(),MoveLogger.getPreviousMove(move).getDestinationRank()).removeAll();
     }
 
     private void initializeBoardLayeredPane() {

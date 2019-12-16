@@ -83,7 +83,7 @@ public class PieceSet {
         }
     }
 
-    public static void promotion(Move move, String selected, BoardPanel boardPanel) {
+    public static Piece promotion(Move move, String selected, BoardPanel boardPanel) {
         Piece pawnPiece=move.getPiece();
         PieceSet.getPieces(pawnPiece.getColor()).remove(pawnPiece);
         Piece newPiece;
@@ -111,6 +111,8 @@ public class PieceSet {
         boardPanel.changeImageLabel(newPiece, move);
         PieceSet.getPieces(pawnPiece.getColor()).add(newPiece);
         System.out.println("pawn has changed into"+newPiece.getType());
+
+        return newPiece;
     }
 
     private static void initializePieceSet() {
