@@ -2,6 +2,12 @@ package pieces;
 
 import java.util.*;
 
+import ui.BoardPanel;
+import util.Move;
+import util.GameModel;
+import board.Board;
+
+
 public class PieceSet {
 
     private static Map<Piece.Color, Map<Piece.Type, List<Piece>>> pieceSet = null;
@@ -75,6 +81,48 @@ public class PieceSet {
             blackKingFile=file;
             blackKingRank=rank;
         }
+    }
+
+    public static void promotion(Move move, String selected, BoardPanel boardPanel) {
+        Piece pawnPiece=move.getPiece();
+        PieceSet.getPieces(pawnPiece.getColor()).remove(pawnPiece);
+        // if (selected.equals("Queen")) {
+        //     pawnPiece.changeType(Piece.Type.QUEEN);
+        // } else if (selected.equals("Rook")) {
+        //     pawnPiece.changeType(Piece.Type.ROOK);
+        // } else if (selected.equals("Bishop")) {
+        //     pawnPiece.changeType(Piece.Type.BISHOP);
+        // } else if (selected.equals("Knight")) {
+        //     pawnPiece.changeType(Piece.Type.KNIGHT);
+        // } 
+        
+        // PieceSet.getPieces(pawnPiece.getColor()).add(pawnPiece); 
+        // boardPanel.changeImageLabel(pawnPiece, move);
+        // System.out.println("pawn has changed into"+pawnPiece.getType());  
+        Piece newPiece;
+        if (selected.equals("Queen")) {
+            newPiece=new Queen(pawnPiece.getColor());
+            Board.getSquare(move.getDestinationFile(), move.getDestinationRank()).setCurrentPiece(newPiece);
+            PieceSet.getPieces(newPiece.getColor()).add(newPiece); 
+
+        } else if (selected.equals("Rook")) {
+            newPiece=new Rook(pawnPiece.getColor());
+            Board.getSquare(move.getDestinationFile(), move.getDestinationRank()).setCurrentPiece(newPiece);
+            PieceSet.getPieces(newPiece.getColor()).add(newPiece); 
+
+        } else if (selected.equals("Bishop")) {
+            newPiece=new Bishop(pawnPiece.getColor());
+            Board.getSquare(move.getDestinationFile(), move.getDestinationRank()).setCurrentPiece(newPiece);
+            PieceSet.getPieces(newPiece.getColor()).add(newPiece); 
+
+        } else {
+            newPiece=new Knight(pawnPiece.getColor());
+            Board.getSquare(move.getDestinationFile(), move.getDestinationRank()).setCurrentPiece(newPiece);
+            PieceSet.getPieces(newPiece.getColor()).add(newPiece); 
+        } 
+
+        boardPanel.changeImageLabel(newPiece, move);
+        System.out.println("pawn has changed into"+newPiece.getType());
     }
 
     private static void initializePieceSet() {

@@ -57,6 +57,11 @@ public class GameModel extends Observable {
                 MoveValidator.validateMove(move, false);
             }
         }
+
+        if (MoveValidator.canPromote(move)) {
+            gameFrame.showPromotion(move,boardPanel);
+            MoveValidator.validateMove(move, false);
+        }
         // Move someMove=MoveValidator.isCheckMove(move);
         // if (MoveValidator.whichCheckMove(someMove)) {
         //     if (MoveValidator.isCheckMate(someMove)) {

@@ -255,6 +255,22 @@ public class MoveValidator {
         return kingcatched;
     }
 
+    public static boolean canPromote(Move move) {
+        Piece curpPiece=move.getPiece();
+        if (curpPiece.getType().equals(Piece.Type.PAWN)) {
+            if (curpPiece.getColor().equals(Piece.Color.WHITE)) {
+                if (move.getDestinationRank()==8) {
+                    return true;
+                }
+            } else {
+                if (move.getDestinationRank()==1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private static boolean validateClearPath(Move move) {
         // TODO-movement
 

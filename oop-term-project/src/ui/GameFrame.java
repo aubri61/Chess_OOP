@@ -2,8 +2,12 @@ package ui;
 
 import util.Core;
 import util.GameModel;
+import util.Move;
 
 import javax.swing.*;
+
+import pieces.PieceSet;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,6 +58,17 @@ public class GameFrame extends JFrame implements Observer{
 
     public void showCheckmateDialog() {
         JOptionPane.showMessageDialog(this, "That's a Checkmate!", "Checkmate", JOptionPane.WARNING_MESSAGE);
+    }
+
+    public void showPromotion (Move move, BoardPanel boardPanel) {
+        String[] buttons={"Queen","Knight","Bishop","Rook"};
+        int selected = JOptionPane.showOptionDialog(null, "Pawn promotes to...", "Select Promote Piece.",
+        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttons, buttons[0]);
+        if(selected == JOptionPane.CLOSED_OPTION) {
+            JOptionPane.showMessageDialog(null, "Pawn Piece was not changed");
+        } else {
+            PieceSet.promotion(move, buttons[selected], boardPanel);
+        }
     }
 
     private void loadInterface() {

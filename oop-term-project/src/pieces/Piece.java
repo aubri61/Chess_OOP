@@ -67,6 +67,10 @@ public abstract class Piece {
     public Type getType() {
         return type;
     }
+    
+    public void changeType(Piece.Type which) {
+        this.type=which;
+    }
 
     public void setCapture(boolean isCaptured) {
         this.capture = isCaptured;

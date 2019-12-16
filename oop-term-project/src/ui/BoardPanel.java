@@ -176,6 +176,13 @@ public class BoardPanel extends JPanel implements Observer {
  
     }
 
+    public void changeImageLabel(Piece piece, Move move) {
+        JLabel newImage=getPieceImageLabel(piece);
+        getSquarePanel(move.getDestinationFile(), move.getDestinationRank()).removeAll();
+        getSquarePanel(move.getDestinationFile(), move.getDestinationRank()).revalidate();
+        getSquarePanel(move.getDestinationFile(), move.getDestinationRank()).add(newImage);
+    }
+
     private void initializeBoardLayeredPane() {
         boardPanel = new JPanel(new GridLayout(8, 8));
         boardPanel.setBounds(0, 0, 800, 800);
@@ -189,7 +196,7 @@ public class BoardPanel extends JPanel implements Observer {
         this.add(boardLayeredPane, BorderLayout.CENTER);
     }
 
-    private JLabel getPieceImageLabel(Piece piece) {
+    public JLabel getPieceImageLabel(Piece piece) {
         Image pieceImage = new ImageIcon(getClass().getResource(piece.getImageFileName())).getImage();
         pieceImage = pieceImage.getScaledInstance(SQUARE_DIMENSION, SQUARE_DIMENSION, Image.SCALE_SMOOTH);
         JLabel pieceImageLabel = new JLabel(new ImageIcon(pieceImage));
