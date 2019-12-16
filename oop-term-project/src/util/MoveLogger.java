@@ -64,6 +64,27 @@ public class MoveLogger {
         }
     }
 
+    public static Move getLastMove() {
+        if (moveRoundBuffer.size()==1) {
+            return moveRoundBuffer.get(0);
+        } else {
+            return moveHistory.get(moveHistory.size()-1).getMove(Piece.Color.BLACK);
+        }
+    }
+
+    public static Move undoMove() {
+        if (moveHistory.size()==0) { return null; }
+        else {
+            if (moveRoundBuffer.size()==0) {
+                MoveRound currentRound = moveHistory.remove(moveHistory.size() - 1);
+                moveRoundBuffer.add(currentRound.getMove(Piece.Color.WHITE));
+                return currentRound.getMove(Piece.Color.BLACK);
+            } else {
+                return moveRoundBuffer.remove(0);
+            }
+        }
+    }
+
     private void initialize() {
         moveHistory = new ArrayList<MoveRound>();
         moveRoundBuffer = new ArrayList<Move>();

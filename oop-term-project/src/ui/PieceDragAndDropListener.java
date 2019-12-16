@@ -4,7 +4,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import ui.playSound;
 
 public class PieceDragAndDropListener implements MouseListener, MouseMotionListener {
 
@@ -40,7 +39,7 @@ public class PieceDragAndDropListener implements MouseListener, MouseMotionListe
             boardPanel.submitMoveRequest(originFile, originRank, calculateFile(e), calculateRank(e));
         }
         dragging = false;
-        PalySound.
+        SoundPlay.playSound("kick2.wav");
         
     }
 

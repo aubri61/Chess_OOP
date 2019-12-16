@@ -1,14 +1,16 @@
+package ui;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioSystem;
 import java.io.*;
 
 
-public class PlaySound {
+public class SoundPlay {
     
     public static void playSound(String soundName) {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile( ));
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
             Clip clip = AudioSystem.getClip( );
             clip.open(audioInputStream);
             clip.start( );
@@ -17,5 +19,5 @@ public class PlaySound {
             ex.printStackTrace( );
        }
     }
-    
+
 }

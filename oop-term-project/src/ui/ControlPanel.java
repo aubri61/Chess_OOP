@@ -28,10 +28,16 @@ public class ControlPanel extends JPanel implements Observer {
         this.setLayout(new GridLayout(0, 1));
 
         undoButton = new JButton("Request Undo");
-        undoButton.setEnabled(false);
+        undoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameModel.onUndoRequest();
+            }
+        });
+        undoButton.setEnabled(true);
         saveButton = new JButton("Save Game");
         saveButton.setEnabled(false);
-        loadButton = new JButton("Load Game");
+        loadButton = new JButton("What?");
         loadButton.setEnabled(false);
 
         this.add(undoButton);

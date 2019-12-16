@@ -25,6 +25,15 @@ public class MoveValidator {
         return validateMove(move, false);
     }
 
+    public static boolean validateUndo(Move move) {
+        Piece curPiece=move.getPiece();
+        if (currentMoveColor.equals(curPiece.getColor())) {
+            return false;
+        }
+        currentMoveColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
+        return true;
+    }
+
     public static boolean validateMove(Move move, Piece.Color color, boolean ignoreColorCheck) {
         currentMoveColor=color;
         // check for out of bounds

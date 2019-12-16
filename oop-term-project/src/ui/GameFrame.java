@@ -58,7 +58,9 @@ public class GameFrame extends JFrame implements Observer{
     }
 
     public void showCheckmateDialog() {
+        SoundPlay.playSound("wow.wav");
         JOptionPane.showMessageDialog(this, "That's a Checkmate!", "Checkmate", JOptionPane.WARNING_MESSAGE);
+                    
     }
 
     public Piece showPromotion (Move move, BoardPanel boardPanel) {

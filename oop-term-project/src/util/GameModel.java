@@ -34,6 +34,10 @@ public class GameModel extends Observable {
         onLocalMoveRequest(originFile, originRank, destinationFile, destinationRank);
     }
 
+    public void onUndoRequest() {
+        onLocalUndoRequest();
+    }
+
     private void onLocalMoveRequest(char originFile, int originRank, char destinationFile, int destinationRank) {
         Move move = new Move(originFile, originRank, destinationFile, destinationRank);
         if (MoveValidator.validateMove(move)) {
@@ -41,6 +45,20 @@ public class GameModel extends Observable {
         } else {
             //
         }
+    }
+    private void onLocalUndoRequest() {
+        Move move = MoveLogger.getLastMove();
+        if (MoveValidator.validateUndo(move)) {
+            executeUndo(move);
+        } else {}
+    }
+
+    private void executeUndo(Move move) {
+        MoveLogger.undoMove();
+        Board.executeUndo(move);
+        moveHistoryPanel.deleteLastMove();
+        boardPanel.executeUndo(move);
+        //MoveValidator.validateMove(move, true);
     }
 
 

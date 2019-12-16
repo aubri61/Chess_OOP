@@ -35,6 +35,16 @@ public class Board {
             return grid[file - 'a'][rank - 1];
         }
     }
+    public static void executeUndo(Move move) {
+        Square originSquare = getSquare(move.getOriginFile(), move.getOriginRank());
+        Square destinationSquare = getSquare(move.getDestinationFile(), move.getDestinationRank());
+        originSquare.setCurrentPiece(destinationSquare.getCurrentPiece());
+        destinationSquare.setCurrentPiece(null);
+        if (move.getCapturedPiece() != null) {
+            destinationSquare.setCurrentPiece(move.getCapturedPiece());
+            destinationSquare.getCurrentPiece().getCapture()
+        }
+    }
 
     public static void executeMove(Move move) {
         Square originSquare = getSquare(move.getOriginFile(), move.getOriginRank());
