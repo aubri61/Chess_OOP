@@ -43,6 +43,7 @@ public class GameModel extends Observable {
         }
     }
 
+
     private void executeMove(Move move) {
         MoveLogger.addMove(move);
         Board.executeMove(move);
@@ -60,8 +61,18 @@ public class GameModel extends Observable {
         }
 
         if (MoveValidator.canPromote(move)) {
-            gameFrame.showPromotion(move,boardPanel);
-            MoveValidator.validateMove(move, false);
+            Piece somePiece=gameFrame.showPromotion(move,boardPanel);
+            Move newMove=new Move(somePiece, move.getDestinationFile(), move.getDestinationRank(),move.getDestinationFile(), move.getDestinationRank());
+            if (MoveValidator.isCheckMove(newMove)) {
+                if (MoveValidator.isRealCheckMate(newMove)) {
+                    stopTimer();
+                    gameFrame.showCheckmateDialog();
+                } else {
+                    gameFrame.showCheckDialog();
+                    MoveValidator.validateMove(newMove, false);
+                }
+            }            
+            MoveValidator.validateMove(newMove, false);
         }
 
         if (MoveValidator.enPassant(move)) {
@@ -75,11 +86,13 @@ public class GameModel extends Observable {
                     MoveLogger.getPreviousMove(move).getPiece().setEnpassant(false);
                     MoveLogger.getPreviousMove(move).getPiece().setCapture(true);
                     PieceSet.addCapturedPiece(MoveLogger.getPreviousMove(move).getPiece());
+                    MoveValidator.validateMove(move, false);
+
                 }
             }
         }
 
-        if(MoveLogger.getPreviousMove(move)!=null&&MoveLogger.getPreviousMove(move).getPiece()!=null && MoveLogger.getPreviousMove(move).getPiece().getEnpassant() && !MoveLogger.getPreviousMove(move).getPiece().getCapture()) {
+        if(MoveLogger.getPreviousMove(move)!=null && MoveLogger.getPreviousMove(move).getPiece()!=null && MoveLogger.getPreviousMove(move).getPiece().getEnpassant() && !MoveLogger.getPreviousMove(move).getPiece().getCapture()) {
             System.out.println(MoveLogger.getPreviousMove(move).getDestinationFile()+" "+MoveLogger.getPreviousMove(move).getDestinationRank());
             System.out.println("sibal");
             MoveLogger.getPreviousMove(move).getPiece().setEnpassant(false);

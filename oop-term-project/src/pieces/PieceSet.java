@@ -6,6 +6,7 @@ import ui.BoardPanel;
 import util.Move;
 import util.GameModel;
 import board.Board;
+import util.MoveValidator;
 
 
 public class PieceSet {

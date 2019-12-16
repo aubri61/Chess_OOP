@@ -7,7 +7,7 @@ import util.Move;
 import javax.swing.*;
 
 import board.Board;
-import pieces.PieceSet;
+import pieces.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -71,31 +71,7 @@ public class GameFrame extends JFrame implements Observer{
         } else {
             return PieceSet.promotion(move, buttons[selected], boardPanel);
         }
-        return move.getPiece();
     }
-
-    // public boolean showEnPassant(String[] arr, Move move, BoardPanel boardPanel) {
-    //     String[] buttons=new String[3];
-    //     for (int i=0; i<2; i++) {
-    //         if (arr[i]==null) {
-    //             buttons[i]="Empty cell";
-    //         } else {
-    //             buttons[i]=arr[i];
-    //         }
-    //     }
-    //     buttons[2]="NO ENPASSANT";
-    //     int selected = JOptionPane.showOptionDialog(null, "Are you going to EnPassant?", "EnPassant",
-    //     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttons, buttons[0]);
-    //     if (!buttons[selected].equals("Empty cell")&&!buttons[selected].equals("NO ENPASSANT")) {
-    //         char file=buttons[selected].charAt(0);
-    //         int rank=buttons[selected].charAt(1)-'0';
-    //         //Move newMove=new Move(Board.getSquare(file, rank).getCurrentPiece(), file, rank, move.getOriginFile(), move.getDestinationRank()-move.getOriginRank());
-    //         boardPanel.executeMove(new Move(move.getDestinationFile(), move.getDestinationRank(), move.getOriginFile(), move.getDestinationRank()-move.getOriginRank()));
-    //         boardPanel.executeMove(new Move(Board.getSquare(file, rank).getCurrentPiece(), file, rank, move.getOriginFile(), move.getDestinationRank()-move.getOriginRank()));
-    //         return true;
-    //     }
-    //     return false;
-    // }
 
     private void loadInterface() {
         initializeMenuBar();

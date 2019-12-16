@@ -309,13 +309,13 @@ public class MoveValidator {
 
         if (curPiece.getType().equals(Piece.Type.PAWN)) {
             if (curPiece.getColor().equals(Piece.Color.WHITE)) {
-                if (destRank==4 && oriRank==2 && ( (oppoPiece1!=null && oppoPiece1.getType().equals(Piece.Type.PAWN))|| 
-                                                    (oppoPiece2!=null && oppoPiece2.getType().equals(Piece.Type.PAWN))) ) {
+                if (destRank==4 && oriRank==2 && ( (oppoPiece1!=null && oppoPiece1.getType().equals(Piece.Type.PAWN) && oppoPiece1.getColor().equals(Piece.Color.BLACK))|| 
+                                                    (oppoPiece2!=null && oppoPiece2.getType().equals(Piece.Type.PAWN) && oppoPiece2.getColor().equals(Piece.Color.BLACK))) )  {
                     return true;
                 }
             } else {
-                if (destRank==5 && oriRank==7 && ( (oppoPiece1!=null && oppoPiece1.getType().equals(Piece.Type.PAWN))|| 
-                                                    (oppoPiece2!=null && oppoPiece2.getType().equals(Piece.Type.PAWN))) ) {
+                if (destRank==5 && oriRank==7 && ( (oppoPiece1!=null && oppoPiece1.getType().equals(Piece.Type.PAWN) && oppoPiece1.getColor().equals(Piece.Color.WHITE)) || 
+                                                    (oppoPiece2!=null && oppoPiece2.getType().equals(Piece.Type.PAWN) && oppoPiece2.getColor().equals(Piece.Color.WHITE))) ) {
                     return true;
                 }
             }
