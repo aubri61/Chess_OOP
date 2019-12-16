@@ -36,10 +36,18 @@ public class BoardPanel extends JPanel implements Observer {
     }
 
     public void submitMoveRequest(char originFile, int originRank, char destinationFile, int destinationRank) {
-        if (getSquarePanel(originFile, originRank).getComponent(0) != null ) {
-            getSquarePanel(originFile, originRank).getComponent(0).setVisible(true);
-            gameModel.onMoveRequest(originFile, originRank, destinationFile, destinationRank);
+        try {
+            if (getSquarePanel(originFile, originRank)==null) {
+                throw new Exception();
+            }
+            if (getSquarePanel(originFile, originRank).getComponent(0) != null ) {
+                getSquarePanel(originFile, originRank).getComponent(0).setVisible(true);
+                gameModel.onMoveRequest(originFile, originRank, destinationFile, destinationRank);
+            }
+        } catch (Exception e) {
+            System.out.println("kkkkk");
         }
+        
     }
 
     public void executeMove(Move move) {
@@ -64,16 +72,32 @@ public class BoardPanel extends JPanel implements Observer {
     }
 
     public void executeDrag(int dragX, int dragY) {
-        JLabel draggedPieceImageLabel = (JLabel) boardLayeredPane.getComponentsInLayer(JLayeredPane.DRAG_LAYER)[0];
-        if (draggedPieceImageLabel != null) {
-            draggedPieceImageLabel.setLocation(dragX, dragY);
+        try {
+            if (boardLayeredPane.getComponentsInLayer(JLayeredPane.DRAG_LAYER).length==0) {
+                throw new Exception();
+            }
+            JLabel draggedPieceImageLabel = (JLabel) boardLayeredPane.getComponentsInLayer(JLayeredPane.DRAG_LAYER)[0];
+            if (draggedPieceImageLabel != null) {
+                draggedPieceImageLabel.setLocation(dragX, dragY);
+            }
+        } catch (Exception e) {
+            System.out.println("ss");
         }
+        
     }
 
     public void postDrag() {
-        JLabel draggedPieceImageLabel = (JLabel) boardLayeredPane.getComponentsInLayer(JLayeredPane.DRAG_LAYER)[0];
-        boardLayeredPane.remove(draggedPieceImageLabel);
-        boardLayeredPane.repaint();
+        try {
+            if (boardLayeredPane.getComponentsInLayer(JLayeredPane.DRAG_LAYER).length==0) {
+                throw new Exception();
+            }
+            JLabel draggedPieceImageLabel = (JLabel) boardLayeredPane.getComponentsInLayer(JLayeredPane.DRAG_LAYER)[0];
+            boardLayeredPane.remove(draggedPieceImageLabel);
+            boardLayeredPane.repaint();
+        } catch (Exception e) {
+            System.out.println("aa");
+        }
+        
     }
 
     public JPanel getSquarePanel(char file, int rank) {

@@ -45,9 +45,7 @@ public class MoveHistoryPanel extends JPanel implements Observer {
                 }
             }
         }
-          
-        
-        
+                
         newMoveEntry += "\n";
 
         moveHistoryContent += newMoveEntry;
