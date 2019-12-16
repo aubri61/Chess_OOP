@@ -15,7 +15,8 @@ public class ControlPanel extends JPanel implements Observer {
 
     private JButton undoButton;
     private JButton saveButton;
-    private JButton loadButton;
+    private JPanel scoreBox;
+   // private JButton loadButton;
 
     public ControlPanel(GameModel gameModel) {
         this.gameModel = gameModel;
@@ -37,12 +38,15 @@ public class ControlPanel extends JPanel implements Observer {
         undoButton.setEnabled(true);
         saveButton = new JButton("Save Game");
         saveButton.setEnabled(false);
-        loadButton = new JButton("What?");
-        loadButton.setEnabled(false);
+        scoreBox = new ScoreBox(gameModel);
+
+        // loadButton = new JButton("What?");
+        // loadButton.setEnabled(false);
 
         this.add(undoButton);
         this.add(saveButton);
-        this.add(loadButton);
+        this.add(scoreBox);
+        //this.add(loadButton);
         this.setPreferredSize(new Dimension(300, 200));
     }
 

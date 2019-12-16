@@ -17,6 +17,7 @@ public class GameModel extends Observable {
     private TimerPanel timerPanel;
     private ControlPanel controlPanel;
     private MoveHistoryPanel moveHistoryPanel;
+    private ScoreBox scoreBox;
 
     private Timer whiteTimer;
     private Timer blackTimer;
@@ -66,6 +67,7 @@ public class GameModel extends Observable {
         MoveLogger.addMove(move);
         Board.executeMove(move);
         moveHistoryPanel.printMove(move);
+        scoreBox.printScore(move);
         boardPanel.executeMove(move);
         switchTimer(move);
         if (MoveValidator.isCheckMove(move)) {
