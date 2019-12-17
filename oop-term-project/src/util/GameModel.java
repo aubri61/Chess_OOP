@@ -18,7 +18,10 @@ public class GameModel extends Observable {
     private ControlPanel controlPanel;
     private MoveHistoryPanel moveHistoryPanel;
     private ScoreBox scoreBox;
+<<<<<<< HEAD
     private Preferences preferences;
+=======
+>>>>>>> parent of 8a7db70... Revert "합친거"
 
     private Timer whiteTimer;
     private Timer blackTimer;
