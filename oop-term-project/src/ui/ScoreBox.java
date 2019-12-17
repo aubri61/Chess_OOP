@@ -18,7 +18,7 @@ public class ScoreBox extends JPanel implements Observer {
     private GameModel gameModel;
     private JScrollPane scoreScrollPane;
     private JTextArea scoreTextArea;
-    private String score;
+    //private String score;
     private String scoreText;
     int whiteScore;
     int blackScore;
@@ -32,7 +32,7 @@ public class ScoreBox extends JPanel implements Observer {
 
     public void printScore(Move move) {
         String ddangddang = " : ";
-        
+        String newScoreEntry = "";
         if ((move.getCapturedPiece() != null) && (move.getPiece().getColor().equals(Piece.Color.WHITE))) {
             if(move.getCapturedPiece().getType().equals(Piece.Type.PAWN)){
                 whiteScore += 1;
@@ -57,12 +57,20 @@ public class ScoreBox extends JPanel implements Observer {
             }else if(move.getCapturedPiece().getType().equals(Piece.Type.QUEEN)){
                 blackScore += 9;
             }
-        }  
-        scoreText = Integer.toString(whiteScore)+ddangddang+Integer.toString(blackScore);
+        } 
+        
+        String  scoreText = Integer.toString(whiteScore)+ddangddang+Integer.toString(blackScore);
+        //scoreText += a;
+        
+        System.out.println(scoreText);
+        
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run() {
-                scoreTextArea.setText(scoreText);
+           public void run() {
+        
+            //SwingUtilities.updateComponent(gameModel.getGameFrame());
+            scoreTextArea.setText(scoreText);
             }
         });
     }
@@ -75,7 +83,9 @@ public class ScoreBox extends JPanel implements Observer {
         //this.add(moveHistoryScrollPane);
 
         //score = new String("I will tell you score!\n");
+        scoreText = new String("0 : 0");
         scoreTextArea = new JTextArea(scoreText);
+        scoreTextArea.setFont(scoreTextArea.getFont().deriveFont(24f));
         scoreTextArea.setBackground(Color.GRAY);
         scoreScrollPane = new JScrollPane(scoreTextArea,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

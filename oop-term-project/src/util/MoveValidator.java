@@ -19,6 +19,14 @@ public class MoveValidator {
         currentMoveColor = Piece.Color.WHITE;
     }
 
+    public static Piece.Color getCurrentMoveColor() {
+        return currentMoveColor;
+    }
+
+    public static void setCurrentMoveColor(Piece.Color color) {
+        currentMoveColor=color;
+    }
+
     private static Piece.Color currentMoveColor;
 
     public static boolean validateMove(Move move) {
@@ -119,31 +127,23 @@ public class MoveValidator {
         Move temp=new Move(move.getPiece(), move.getDestinationFile(), move.getDestinationRank(), 
                             PieceSet.getOpponentKingFile(move.getPiece().getColor()), PieceSet.getOpponentKingRank(move.getPiece().getColor()));
         originCheck=validateMove(temp, true);
+        
 
         for (char i='a'; i<'i'; i++) {
             for (int j=1; j<9; j++) {
                 Piece curPiece=Board.getSquare(i, j).getCurrentPiece();
                 if (curPiece!=null && curPiece.getColor().equals( move.getPiece().getColor() )) {
                     Move temp2=new Move(curPiece, i, j, PieceSet.getOpponentKingFile(curPiece.getColor()), PieceSet.getOpponentKingRank(curPiece.getColor()));
-                    anotherCheck=validateMove(temp2, true);
+                    anotherCheck=anotherCheck||validateMove(temp2, true);
                 }
-                if (anotherCheck) {break;}
+              //  if (anotherCheck) {break;}
             }
-            if (anotherCheck) {break;}
+          //  if (anotherCheck) {break;}
         }
         
         return originCheck||anotherCheck;
 
-        // Move temp=new Move(move.getPiece(), move.getDestinationFile(), move.getDestinationRank(), 
-        //                     PieceSet.getOpponentKingFile(move.getPiece().getColor()), PieceSet.getOpponentKingRank(move.getPiece().getColor()));
-        // if (validateMove(temp, true)) { return temp; }
-
-        // return null;
     }
-
-    // public static Move whichCheckMove(Move move) {
-    //     return move;
-    // }
 
     public static boolean isCheckMate(Move move) {
         // TODO-check
@@ -155,72 +155,42 @@ public class MoveValidator {
         int[] dir2={1, -1, 0, -1, 1, 0, -1, 1};
         boolean kingcatched=true;
         boolean otherCatch=false;
-        boolean anotherCheck=false;
-        //boolean sacrifice=true;
+        boolean kingSelfCatch=false;
 
-        //kingcatched
+        Move kingSelfMove=new Move(opponentKing, move.getPiece(), PieceSet.getOpponentKingFile(move.getPiece().getColor()), 
+                                    PieceSet.getOpponentKingRank(move.getPiece().getColor()),move.getDestinationFile(), move.getDestinationRank());
+        if (validateMove(kingSelfMove,false)) {
+            kingSelfCatch=true;
+        }
+        System.out.println("kingselfcatch  :  "+kingSelfCatch);
+
+        //kingcatched - true if checkmate.
         for (int i=0; i<dir1.length; ++i) {
             kingcatched=kingcatched&&kingAvailMove(move, opponentKing, dir1[i], dir2[i]);
-           // System.out.println(kingAvailMove(move, opponentKing, dir1[i], dir2[i]));
         }
-      //  System.out.println("here ok");
+        System.out.println("kingcatched  :  "+kingcatched);
+     
 
-      //otehrcatch
+      //othercatch - true if not checkmate.
         for (char i='a'; i<'i'; i++) {
             for (int j=1; j<9; j++) {
                 Piece curPiece=Board.getSquare(i, j).getCurrentPiece();
-                System.out.println(i+" "+j);
+                System.out.println("otherCatch  " +i+" "+j);
                 if (curPiece!=null && curPiece.getColor().equals( opponentKing.getColor() )) {
                     if (curPiece.getType().equals(Piece.Type.KING)) {continue;}
-                    otherCatch=validateMove(new Move(curPiece, move.getPiece(), i, j, move.getDestinationFile(), move.getDestinationRank()), opponentKing.getColor(), false);
+                    otherCatch=otherCatch||validateMove(new Move(curPiece, i, j, move.getDestinationFile(), move.getDestinationRank()));
+                    System.out.println(curPiece.getType());
+                   
                     System.out.println(otherCatch);
                 }
-                if (otherCatch==true) { break;}
+        //        if (otherCatch==true) { break;}
             }
-            if (otherCatch==true) {break;}
+        //    if (otherCatch==true) {break;}
         }
+        System.out.println("otherCatch= " +otherCatch);
 
-        
 
-        //sacrifice
-        // for (char i='a'; i<'i'; i++) {
-        //     for (int j=1; j<9; j++) {
-        //         Piece curPiece=Board.getSquare(i, j).getCurrentPiece();
-        //         System.out.println(i+" "+j);
-        //         if (curPiece!=null && curPiece.getColor().equals( opponentKing.getColor() )) {
-        //             if (curPiece.getType().equals(Piece.Type.KING)) {continue;}
-        //             for (char x='a'; x<'i'; x++) {
-        //                 for (int y=1; y<9; y++) {
-        //                     if (validateMove(new Move(curPiece, move.getPiece(), i, j, x, y), opponentKing.getColor(), false)) {
-        //                         Piece temp=Board.getSquare(x, y).getCurrentPiece();
-        //                         // if (temp != null) {
-        //                         //     temp.setCapture(true);
-        //                         //     PieceSet.addCapturedPiece(temp);
-        //                         // }
-        //                         Board.getSquare(x, y).setCurrentPiece(curPiece);
-        //                         Board.getSquare(i, j).setCurrentPiece(null);
-        //                         sacrifice=MoveValidator.isCheckMove(move);
-        //                         // if (temp.getCapture()) {
-        //                         //     temp.setCapture(false);
-        //                         // }
-        //                         Board.getSquare(i, j).setCurrentPiece(curPiece);
-        //                         Board.getSquare(x, y).setCurrentPiece(temp);
-        //                     }
-        //                     System.out.println(sacrifice);
-        //                 }
-        //             }
-                    
-        //         }
-        //        // if (otherCatch==true) { break;}
-        //     }
-        //   //  if (otherCatch==true) {break;}
-        // }
-        
-
-       //System.out.println(sacrifice);
-      // kingcatched=kingcatched||anotherCheck;
-
-        return kingcatched&&!otherCatch;
+        return kingcatched&&!otherCatch&&!kingSelfCatch;
     }
 
     public static boolean isRealCheckMate(Move move) {
@@ -233,48 +203,51 @@ public class MoveValidator {
         for (char i='a'; i<'i'; i++) {
             for (int j=1; j<9; j++) {
                 Piece curPiece=Board.getSquare(i, j).getCurrentPiece();
-                System.out.println(i+" "+j);
+                System.out.println("isRealCheckMate "+i+" "+j);
                 if (curPiece!=null && curPiece.getColor().equals( move.getPiece().getColor() )) {
-                    Move newMove=new Move(curPiece, opponentKing, i, j, PieceSet.getOpponentKingFile(move.getPiece().getColor()), 
+                    Move newMove=new Move(curPiece, i, j, PieceSet.getOpponentKingFile(move.getPiece().getColor()), 
                                             PieceSet.getOpponentKingRank(move.getPiece().getColor()));
-                    anotherCheck=validateMove(new Move(curPiece, opponentKing, i, j, PieceSet.getOpponentKingFile(move.getPiece().getColor()), 
-                                                    PieceSet.getOpponentKingRank(move.getPiece().getColor())), false);
+                    anotherCheck=validateMove(newMove, false);
                     if (anotherCheck==true) { 
-                        anotherCheckmateCheck=isCheckMate(newMove);
-                    } else { break; }
+                        anotherCheckmateCheck=anotherCheckmateCheck||isCheckMate(newMove);
+                       // System.out.println(anotherCheckmateCheck);
+                    } 
                 }
-                if (anotherCheckmateCheck) {break;}
+                 System.out.println(anotherCheckmateCheck);
+
+                
             }
-            if (anotherCheckmateCheck) {break;}
+            //if (anotherCheckmateCheck) {break;}
         }
+        System.out.println("anotheCC"+anotherCheckmateCheck);
         return ischeckmate||anotherCheckmateCheck;
     }
 
     public static boolean kingAvailMove(Move move, Piece opponentKing, int filedir, int rankdir) {
         Piece.Color moveColor=move.getPiece().getColor();
-        //List<Piece> currPieces=PieceSet.getPieces(moveColor);
         char kingOriFile=PieceSet.getOpponentKingFile(moveColor);
         int kingOriRank=PieceSet.getOpponentKingRank(moveColor);
         boolean kingcatched=true;
+        boolean tempkingcatched=false;
 
         if ((char)(kingOriFile+filedir)>'h' ||  (char)(kingOriFile+filedir)<'a' || (int)(kingOriRank+rankdir)>8 ||(int)(kingOriRank+rankdir)<1 ) {
-          //  System.out.println("nono outof bound");
             return true;
         }
         Move kingMove=new Move( opponentKing, kingOriFile, kingOriRank, (char)(kingOriFile+filedir), (int)(kingOriRank+rankdir));
-       // System.out.println("1111111");
-        if (validateMove(kingMove, opponentKing.getColor(), false)) {  
-            System.out.println("kjdfoqiwjer");
+        if (validateMove(kingMove, false)) {  
             for (char i='a'; i<'i'; i++) {
                 for (int j=1; j<9; j++) {
                     Piece curPiece=Board.getSquare(i, j).getCurrentPiece();
+                    System.out.println("kingavailmove  "+i+" "+j);
+
                     if (curPiece!=null && curPiece.getColor().equals(moveColor)) {
-                        kingcatched=validateMove(new Move(curPiece, opponentKing, i, j, (char)(kingOriFile+filedir), kingOriRank+rankdir));
+                        tempkingcatched=validateMove(new Move(curPiece, i, j, (char)(kingOriFile+filedir), kingOriRank+rankdir));
                     }
                   
-                    if (kingcatched==true) { break;}
+                    kingcatched=kingcatched||tempkingcatched;
+                    System.out.println("kingcatched   "+ kingcatched);
                 }
-                if (kingcatched==true) {break;}
+              //  kingcatched=kingcatched||tempkingcatched;
             }
         }
         return kingcatched;
@@ -362,6 +335,13 @@ public class MoveValidator {
         System.out.println(result[0]+result[1]);
 
         return result;
+    }
+
+    public static boolean isKingCatched(Move move) {
+        if (move.getCapturedPiece().getType().equals(Piece.Type.KING) && !move.getCapturedPiece().getColor().equals(move.getPiece().getColor())) {
+            return true;
+        } 
+        return false;
     }
 
     private static boolean validateClearPath(Move move) {

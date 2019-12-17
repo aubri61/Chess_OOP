@@ -10,6 +10,7 @@ import javax.swing.*;
 import board.Board;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -57,8 +58,40 @@ public class MoveHistoryPanel extends JPanel implements Observer {
         });
     }
 
-    public void deleteLastMove() {
-        moveHistoryContent = moveHistoryContent.substring(0, moveHistoryContent.lastIndexOf('\n'));
+    public void undoLastMove(Move move) {
+        // String[] splited=moveHistoryContent.split("\n");
+        // String[] newSplited=new String[splited.length-1];
+        // for (int i=0; i<splited.length-1; i++) {
+        //     newSplited[i]=splited[i];
+        // }
+        // for (int i=0; i<newSplited.length; i++) {
+        //     moveHistoryContent+=newSplited[i];
+        // }
+        if (move.getPiece().getColor().equals(Piece.Color.WHITE)) {
+            moveHistoryContent=moveHistoryContent.substring(0, moveHistoryContent.lastIndexOf("WHITE "));
+        } else {
+            moveHistoryContent=moveHistoryContent.substring(0, moveHistoryContent.lastIndexOf("BLACK "));
+        }
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                moveHistoryTextArea.setText(moveHistoryContent);
+            }
+        });
+    }
+
+    public void printPromotion(Piece orPiece, Piece newPiece) {
+        String newMoveEntry = "";
+       
+        newMoveEntry +=orPiece.getColor().toString().toLowerCase()+ " ";
+        newMoveEntry +=orPiece.getType().toString()+ ": ";
+        newMoveEntry +="promoted into ";
+        newMoveEntry +=newPiece.getColor().toString().toLowerCase()+ " ";
+        newMoveEntry +=newPiece.getType().toString()+ ": ";      
+                
+        newMoveEntry += "\n";
+
+        moveHistoryContent += newMoveEntry;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

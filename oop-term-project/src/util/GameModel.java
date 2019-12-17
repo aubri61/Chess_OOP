@@ -17,12 +17,15 @@ public class GameModel extends Observable {
     private TimerPanel timerPanel;
     private ControlPanel controlPanel;
     private MoveHistoryPanel moveHistoryPanel;
+    private ScoreBox scoreBox;
+    private Preferences preferences;
 
     private Timer whiteTimer;
     private Timer blackTimer;
 
     public GameModel() {
         initialize();
+        this.preferences=Core.getPreferences();
     }
 
     private void initialize() {
@@ -56,7 +59,7 @@ public class GameModel extends Observable {
     private void executeUndo(Move move) {
         MoveLogger.undoMove();
         Board.executeUndo(move);
-        moveHistoryPanel.deleteLastMove();
+        moveHistoryPanel.undoLastMove(move);
         boardPanel.executeUndo(move);
         //MoveValidator.validateMove(move, true);
     }
@@ -66,20 +69,29 @@ public class GameModel extends Observable {
         MoveLogger.addMove(move);
         Board.executeMove(move);
         moveHistoryPanel.printMove(move);
+        scoreBox.printScore(move);
         boardPanel.executeMove(move);
         switchTimer(move);
         if (MoveValidator.isCheckMove(move)) {
             if (MoveValidator.isRealCheckMate(move)) {
                 stopTimer();
                 gameFrame.showCheckmateDialog();
+                return;
             } else {
                 gameFrame.showCheckDialog();
                 MoveValidator.validateMove(move, false);
             }
         }
 
+        if (MoveValidator.isKingCatched(move)) {
+            gameFrame.showWinDialog(move);
+            stopTimer();
+            return;
+        }
+
         if (MoveValidator.canPromote(move)) {
             Piece somePiece=gameFrame.showPromotion(move,boardPanel);
+            moveHistoryPanel.printPromotion(move.getPiece(), somePiece);
             Move newMove=new Move(somePiece, move.getDestinationFile(), move.getDestinationRank(),move.getDestinationFile(), move.getDestinationRank());
             if (MoveValidator.isCheckMove(newMove)) {
                 if (MoveValidator.isRealCheckMate(newMove)) {
@@ -87,24 +99,24 @@ public class GameModel extends Observable {
                     gameFrame.showCheckmateDialog();
                 } else {
                     gameFrame.showCheckDialog();
-                    MoveValidator.validateMove(newMove, false);
+                   // MoveValidator.validateMove(newMove, false);
                 }
             }            
-            MoveValidator.validateMove(newMove, false);
+        //    MoveValidator.validateMove(newMove, false);
         }
 
         if (MoveValidator.enPassant(move)) {
             move.getPiece().setEnpassant(true);
-            MoveValidator.validateMove(move, false);
+         //   MoveValidator.validateMove(move, false);
         }
         if (MoveLogger.getPreviousMove(move)!=null && MoveLogger.getPreviousMove(move).getPiece()!=null && MoveLogger.getPreviousMove(move).getPiece().getEnpassant()) {
             if (move.getPiece().getType().equals(Piece.Type.PAWN)) {
                 if (move.getDestinationFile()==MoveLogger.getPreviousMove(move).getDestinationFile() && Math.abs(move.getDestinationRank()-MoveLogger.getPreviousMove(move).getDestinationRank())==1) {
                     boardPanel.removeEnPassantLabel(move);
-                    MoveLogger.getPreviousMove(move).getPiece().setEnpassant(false);
+                    //MoveLogger.getPreviousMove(move).getPiece().setEnpassant(false);
                     MoveLogger.getPreviousMove(move).getPiece().setCapture(true);
                     PieceSet.addCapturedPiece(MoveLogger.getPreviousMove(move).getPiece());
-                    MoveValidator.validateMove(move, false);
+                  //  MoveValidator.validateMove(move, false);
 
                 }
             }
@@ -116,7 +128,16 @@ public class GameModel extends Observable {
             MoveLogger.getPreviousMove(move).getPiece().setEnpassant(false);
             System.out.println(MoveLogger.getPreviousMove(move).getPiece()+" "+MoveLogger.getPreviousMove(move).getOriginFile()+" "+MoveLogger.getPreviousMove(move).getOriginRank());
         }
+
+        if (MoveValidator.getCurrentMoveColor().equals(MoveLogger.getLastMove().getPiece().getColor())) {
+            if (MoveLogger.getLastMove().getPiece().getColor().equals(Piece.Color.WHITE)) {
+                MoveValidator.setCurrentMoveColor(Piece.Color.BLACK);
+            } else {
+                MoveValidator.setCurrentMoveColor(Piece.Color.WHITE);
+            }
+        }
     }
+
 
     public Piece queryPiece(char file, int rank) {
         return Board.getSquare(file, rank).getCurrentPiece();
@@ -127,6 +148,7 @@ public class GameModel extends Observable {
         timerPanel = new TimerPanel(this);
         controlPanel = new ControlPanel(this);
         moveHistoryPanel = new MoveHistoryPanel(this);
+        scoreBox = new ScoreBox(this);
         gameFrame = new GameFrame(this);
     }
 
@@ -175,6 +197,9 @@ public class GameModel extends Observable {
 
     public ControlPanel getControlPanel() {
         return controlPanel;
+    }
+    public ScoreBox getScoreBox() {
+        return scoreBox;
     }
 
     public MoveHistoryPanel getMoveHistoryPanel() {

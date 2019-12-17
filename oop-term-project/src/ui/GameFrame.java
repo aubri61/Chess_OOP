@@ -36,6 +36,8 @@ public class GameFrame extends JFrame implements Observer{
     private JPanel timerPanel;
     private JPanel controlPanel;
     private JPanel moveHistoryPanel;
+    private JPanel scoreBox;
+
 
     public GameFrame(GameModel gameModel) {
         super("CSI2102 at YSU | InGame");
@@ -44,6 +46,7 @@ public class GameFrame extends JFrame implements Observer{
         this.timerPanel = gameModel.getTimerPanel();
         this.controlPanel = gameModel.getControlPanel();
         this.moveHistoryPanel = gameModel.getMoveHistoryPanel();
+        this.scoreBox = gameModel.getScoreBox();
         loadInterface();
         gameModel.addObserver(this);
     }
@@ -73,6 +76,17 @@ public class GameFrame extends JFrame implements Observer{
         } else {
             return PieceSet.promotion(move, buttons[selected], boardPanel);
         }
+    }
+
+    public void showWinDialog(Move move) {
+        SoundPlay.playSound("wow.wav");
+        String str="";
+        if (move.getPiece().getColor().equals(Piece.Color.WHITE)) {
+            str+="White has won the game!";
+        } else {
+            str+="Black has won the game!";
+        }
+        JOptionPane.showMessageDialog(this, str, "Game End", JOptionPane.WARNING_MESSAGE);
     }
 
     private void loadInterface() {
@@ -153,27 +167,36 @@ public class GameFrame extends JFrame implements Observer{
         gridBagLayout.setConstraints(boardPanel, gridBagConstraints);
         this.add(boardPanel);
 
-        // TimerPanel
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridheight = 1;
-        gridBagLayout.setConstraints(timerPanel, gridBagConstraints);
-        this.add(timerPanel);
-
-        // ControlPanel
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridheight = 1;
-        gridBagLayout.setConstraints(controlPanel, gridBagConstraints);
-        this.add(controlPanel);
-
-        // MoveHistoryPanel
+         // TimerPanel
+         gridBagConstraints.gridx = 5;
+         gridBagConstraints.gridy = 0;
+         gridBagConstraints.gridwidth = 1;
+         gridBagConstraints.gridheight = 1;
+         gridBagLayout.setConstraints(timerPanel, gridBagConstraints);
+         this.add(timerPanel);
+ 
+         // ControlPanel
+         gridBagConstraints.gridx = 5;
+         gridBagConstraints.gridy = 1;
+         gridBagConstraints.gridwidth = 1;
+         gridBagConstraints.gridheight = 1;
+         gridBagLayout.setConstraints(controlPanel, gridBagConstraints);
+         this.add(controlPanel);
+ 
+        //ScoreBox
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.gridheight = 1;
+        gridBagLayout.setConstraints(scoreBox, gridBagConstraints);
+        this.add(scoreBox);
+ 
+    
+        // MoveHistoryPanel
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight = 1;
         gridBagLayout.setConstraints(moveHistoryPanel, gridBagConstraints);
         this.add(moveHistoryPanel);
     }

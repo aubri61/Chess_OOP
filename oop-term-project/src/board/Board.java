@@ -42,7 +42,7 @@ public class Board {
         destinationSquare.setCurrentPiece(null);
         if (move.getCapturedPiece() != null) {
             destinationSquare.setCurrentPiece(move.getCapturedPiece());
-            destinationSquare.getCurrentPiece().getCapture()
+            destinationSquare.getCurrentPiece().setCapture(false);
         }
     }
 

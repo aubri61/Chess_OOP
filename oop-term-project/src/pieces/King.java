@@ -23,11 +23,21 @@ public class King extends Piece {
         int absFileDiff = Math.abs(fileDiff);
         int absRankDiff = Math.abs(rankDiff);
 
+        char oppoKingFile=PieceSet.getOpponentKingFile(move.getPiece().getColor());
+        int oppoKingRank=PieceSet.getOpponentKingRank(move.getPiece().getColor());
+
+        int absKingfd=Math.abs(oppoKingFile-oriFile);
+        int absKingrd=Math.abs(oppoKingRank-oriRank);
+
+
         // executeMove or capture
         if ((move.getCapturedPiece() == null)
                 || (move.getCapturedPiece() != null
                     && !move.getPiece().getColor().equals(move.getCapturedPiece().getColor()))) {
             // along file
+            if ((absKingfd==2&&absKingrd==0) || (absKingfd==0&&absKingrd==2) || (absKingfd==2 && absKingrd==2)) {
+                return false;
+            }
             if (absFileDiff<=1 && absRankDiff <=1 ) {
                 return true;
             }

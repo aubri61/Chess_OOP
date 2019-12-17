@@ -19,11 +19,13 @@ public abstract class Piece {
     protected Type type;
     protected boolean capture;
     protected boolean enpassant;
+    protected boolean promoted;
     
     public Piece(Color color) {
         this.color = color;
         this.capture = false;
         this.enpassant=false;
+        this.promoted=false;
     }
 
     public abstract boolean validateMove(Move move);
@@ -88,6 +90,14 @@ public abstract class Piece {
     
     public void setEnpassant(boolean b) {
         this.enpassant=b;
+    }
+
+    public boolean getPromoted() {
+        return this.promoted;
+    }
+    
+    public void setPromoted(boolean b) {
+        this.promoted=b;
     }
 
 

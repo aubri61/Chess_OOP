@@ -3,7 +3,9 @@ package pieces;
 import java.util.*;
 
 import ui.BoardPanel;
+import ui.MoveHistoryPanel;
 import util.Move;
+import util.MoveLogger;
 import util.GameModel;
 import board.Board;
 import util.MoveValidator;
@@ -111,9 +113,26 @@ public class PieceSet {
 
         boardPanel.changeImageLabel(newPiece, move);
         PieceSet.getPieces(pawnPiece.getColor()).add(newPiece);
-        System.out.println("pawn has changed into"+newPiece.getType());
+        pawnPiece.setPromoted(true);
+        System.out.println(MoveLogger.getLastMove().getPiece() +" "+ MoveLogger.getLastMove().getDestinationFile()+" "+MoveLogger.getLastMove().getDestinationRank());
+        //MoveLogger.promotedMove(pawnPiece, newPiece);
 
+       // System.out.println("pawn has changed into"+newPiece.getType());
         return newPiece;
+    }
+
+    public static void unPromoteUndo(Move move) {
+        System.out.println("siq");
+        Piece newPiece=new Pawn(move.getPiece().getColor());
+        System.out.println("newPiece"+" "+newPiece.getType());
+
+        Piece oriPiece=Board.getSquare(move.getOriginFile(), move.getOriginRank()).getCurrentPiece();
+        System.out.println(oriPiece);
+        System.out.println(move.getOriginFile()+" "+move.getOriginRank());
+        Board.getSquare(move.getOriginFile(), move.getOriginRank()).setCurrentPiece(newPiece);
+        PieceSet.getPieces(move.getPiece().getColor()).add(newPiece);
+        PieceSet.getPieces(move.getPiece().getColor()).remove(oriPiece);
+        newPiece.setPromoted(false);
     }
 
     private static void initializePieceSet() {

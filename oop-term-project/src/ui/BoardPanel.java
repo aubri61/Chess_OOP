@@ -1,5 +1,6 @@
 package ui;
 
+import pieces.Pawn;
 import pieces.Piece;
 import pieces.PieceSet;
 import util.Core;
@@ -8,6 +9,9 @@ import util.Move;
 import util.MoveLogger;
 
 import javax.swing.*;
+
+import board.Board;
+
 import java.awt.*;
 import java.util.Iterator;
 import java.util.Observable;
@@ -68,6 +72,23 @@ public class BoardPanel extends JPanel implements Observer {
         if (move.getCapturedPiece() != null) {
             destinationSquarePanel.add(getPieceImageLabel(move.getCapturedPiece()));
         }
+        if (MoveLogger.getPreviousMove(move) !=null && MoveLogger.getPreviousMove(move).getPiece().getEnpassant()) {
+            System.out.println("yy");
+            getSquarePanel(MoveLogger.getPreviousMove(move).getDestinationFile(), MoveLogger.getPreviousMove(move).getDestinationRank()).add(getPieceImageLabel(MoveLogger.getPreviousMove(move).getPiece()));
+        }
+
+        if (move.getPiece() !=null && move.getPiece().getPromoted() ) {
+            System.out.println(move.getPiece().getType());
+            changeImageLabelUndo(move.getPiece(), move);
+            PieceSet.unPromoteUndo(move);
+            System.out.println(move.getPiece().getType());
+        }
+        // if (MoveLogger.getLastMove() !=null && Board.getSquare(MoveLogger.getLastMove().getDestinationFile(), MoveLogger.getLastMove().getDestinationRank()).getCurrentPiece().getPromoted() ) {
+        //     Piece curPiece=Board.getSquare(MoveLogger.getLastMove().getDestinationFile(), MoveLogger.getLastMove().getDestinationRank()).getCurrentPiece();
+        //     changeImageLabelUndo(curPiece, MoveLogger.getLastMove());
+        //     curPiece.setPromoted(false);
+        //     System.out.println(curPiece.getPromoted());
+        // }
         originSquarePanel.repaint();
         destinationSquarePanel.repaint();
     }
@@ -220,9 +241,16 @@ public class BoardPanel extends JPanel implements Observer {
         getSquarePanel(move.getDestinationFile(), move.getDestinationRank()).add(newImage);
     }
 
+    public void changeImageLabelUndo(Piece piece, Move move) {
+        JLabel newImage=getPieceImageLabel(new Pawn(piece.getColor()));
+        getSquarePanel(move.getOriginFile(), move.getOriginRank()).removeAll();
+        getSquarePanel(move.getOriginFile(), move.getOriginRank()).revalidate();
+        getSquarePanel(move.getOriginFile(), move.getOriginRank()).add(newImage);
+    }
+
     public void removeEnPassantLabel(Move move) {
         getSquarePanel(MoveLogger.getPreviousMove(move).getDestinationFile(),MoveLogger.getPreviousMove(move).getDestinationRank()).removeAll();
-        getSquarePanel(MoveLogger.getPreviousMove(move).getDestinationFile(),MoveLogger.getPreviousMove(move).getDestinationRank()).removeAll();
+       // getSquarePanel(MoveLogger.getPreviousMove(move).getDestinationFile(),MoveLogger.getPreviousMove(move).getDestinationRank()).removeAll();
     }
 
     private void initializeBoardLayeredPane() {

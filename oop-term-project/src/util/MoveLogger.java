@@ -54,13 +54,25 @@ public class MoveLogger {
         }
     }
 
+    // public static void promotedMove(Piece oriPiece, Piece newPiece) {
+    //     Piece.Color oriCol=oriPiece.getColor();
+    //     Piece.Type newType=newPiece.getType();
+    //     if (oriCol.equals(Piece.Color.BLACK)) {
+    //         moveHistory.add(new RoundMove)
+    //     }
+    // }
+
     public static Move getPreviousMove(Move move) {
         if (move.getPiece().getColor().equals(Piece.Color.WHITE)) {
             if (moveHistory.size()!=0) {
                 return moveHistory.get(moveHistory.size() -1 ).getMove(Piece.Color.BLACK);
             } else {return null;}
         } else {
-            return moveHistory.get(moveHistory.size() -1).getMove(Piece.Color.WHITE);
+            if (moveHistory.size()==0) {
+                return moveRoundBuffer.get(0);
+            } else {
+                return moveHistory.get(moveHistory.size() -1).getMove(Piece.Color.WHITE);
+            }
         }
     }
 
