@@ -19,7 +19,10 @@ public class GameModel extends Observable {
     private MoveHistoryPanel moveHistoryPanel;
     private ScoreBox scoreBox;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private Preferences preferences;
+=======
+>>>>>>> parent of 8a7db70... Revert "합친거"
 =======
 >>>>>>> parent of 8a7db70... Revert "합친거"
 
